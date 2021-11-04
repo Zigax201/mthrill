@@ -50,7 +50,7 @@ class AuthController extends Controller
                 'message'=>'Welcome Admin',
                 'profile'=>$user
             ]);
-        }elseif($user->role == 2){
+        }elseif($user->role == 0){
             return response([
                 'message'=>'Welcome Customer',
                 'profile'=>$user
