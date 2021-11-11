@@ -83,7 +83,7 @@ class CheckoutController extends Controller
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "origin=$request->origin&destination=$request->destination&weight=$request->weight&courier=$request->courier",
+            CURLOPT_POSTFIELDS => "origin=$request->city_origin&destination=$request->city_destination&weight=$request->weight&courier=$request->courier",
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/x-www-form-urlencoded",
                 "key: 072e59e8aaf449d42bb0a158a7471bcc"
@@ -99,7 +99,7 @@ class CheckoutController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             $response = json_decode($response, true);
-            $data_ongkir = $response['rajaongkir'];
+            $data_ongkir = $response['rajaongkir']['results'];
             return $data_ongkir;
         }
     }
