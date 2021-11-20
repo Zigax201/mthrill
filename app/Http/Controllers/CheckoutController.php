@@ -99,7 +99,7 @@ class CheckoutController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             $response = json_decode($response, true);
-            $data_ongkir = $response['rajaongkir']['results'];
+            $data_ongkir = $response['rajaongkir'];
             return $data_ongkir;
         }
     }
