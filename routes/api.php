@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::get('checkout',[CheckoutController::class, 'checkout']);
     Route::get('province',[CheckoutController::class, 'get_province']);
-    Route::get('city/{id}',[CheckoutController::class, 'get_city']);
-    Route::get('ongkir/origin={city_origin}&destination={city_destination}&weight={weight}&courier={courier}',[CheckoutController::class, 'get_ongkir']);
+    Route::get('city',[CheckoutController::class, 'get_city']);
+    Route::get('ongkir',[CheckoutController::class, 'get_ongkir']);
+    Route::post('orders', [OrderController::class, 'create']);
+    // Route::resource('orders', OrderController::class)->only(['index', 'show']);
 });
