@@ -17,7 +17,7 @@ class ProductController extends Controller
         $product = Product::all();
 
         return response([
-            'message' => 'Success',
+            'message' => 'Success Get All Product',
             'product' => $product
         ]);
     }
@@ -48,7 +48,7 @@ class ProductController extends Controller
         $product = Product::where('id', $id)->get();
 
         return response([
-            'message' => 'Success',
+            'message' => 'Success Get Product '.$product->name,
             'product' => $product
         ]);
     }
