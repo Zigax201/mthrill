@@ -7,7 +7,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $product = Product::all();
 
+        return response([
+            'message' => 'Success Get All Product',
+            'product' => $product
+        ]);
+    }
 
     public function store(Request $request)
     {
@@ -24,29 +32,16 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $product = Product::where('id', $id)->get();
 
         return response([
-            'message' => 'Success Get Product ' . $product->name,
+            'message' => 'Success Get Product',
             'product' => $product
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $product = Product::where('id', $id)->get();
@@ -66,31 +61,10 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $product = Product::find($id);
         $product->delete();
         return response(['message' => 'Success deleted']);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $product = Product::all();
-
-        return response([
-            'message' => 'Success Get All Product',
-            'product' => $product
-        ]);
     }
 }
