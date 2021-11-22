@@ -39,10 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('productedit', [ProductController::class, 'edit']);
     Route::delete('productdelete', [ProductController::class, 'delete']);
     Route::post('product', [ProductController::class, 'store_product']);
+    Route::get('product', [ProductController::class, 'show_by_id']);
+    Route::get('products', [ProductController::class, 'show_all']);
 });
 
-Route::get('product', [ProductController::class, 'show_by_id']);
-Route::get('products', [ProductController::class, 'show_all']);
 
 // Route::post('orders', [OrderController::class, 'create']);
 // Route::resource('orders', OrderController::class)->only(['index', 'show']);
