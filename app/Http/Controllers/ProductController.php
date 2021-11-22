@@ -56,7 +56,7 @@ class ProductController extends Controller
         if ($product) {
             return response([
                 'message' => 'Success Edit',
-                'product' => $product
+                'product' => Product::where('id', $id)->get()
             ]);
         }
     }
