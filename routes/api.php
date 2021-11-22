@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::resource('product', ProductController::class, ['only' => 'index', 'show']);
+// Route::resource('product', ProductController::class, ['only' => 'index', 'show']);
+Route::get('product', [ProductController::class, 'show']);
+Route::get('products', [ProductController::class, 'show_all']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -35,14 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('city', [CheckoutController::class, 'get_city']);
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
-    Route::resource('product', ProductController::class);
-    // Route::put('product', [ProductController::class, 'update']);
-    // Route::delete('product', [ProductController::class, 'destroy']);
-    // Route::post('product', [ProductController::class, 'store']);
+    // Route::resource('product', ProductController::class);
+    Route::put('product', [ProductController::class, 'update']);
+    Route::delete('product', [ProductController::class, 'destroy']);
+    Route::post('product', [ProductController::class, 'store']);
 });
 
-// Route::get('product', [ProductController::class, 'show']);
-// Route::get('product', [ProductController::class, 'index']);
 
 // Route::post('orders', [OrderController::class, 'create']);
 // Route::resource('orders', OrderController::class)->only(['index', 'show']);
