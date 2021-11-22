@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -44,21 +45,31 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-        $product = Product::where('id', $request->id)->get();
+        $user = Auth::user();
 
-        $product->toQuery()->update([
-            'name' => $request->input('name'),
-            'desc' => $request->input('desc'),
-            'price' => $request->input('price'),
-            'catalog' => $request->input('catalog')
-        ]);
+        if ($user->role == 1) {
 
-        if ($product) {
-            return response([
-                'message' => 'Success Edit',
-                'product' => Product::where('id', $request->id)->get()
+            $product = Product::where('id', $request->id)->get();
+
+            $product->toQuery()->update([
+                'name' => $request->input('name'),
+                'desc' => $request->input('desc'),
+                'price' => $request->input('price'),
+                'catalog' => $request->input('catalog')
             ]);
+
+            if ($product) {
+                return response([
+                    'message' => 'Success Edit',
+                    'product' => Product::where('id', $request->id)->get()
+                ]);
+            }
+
         }
+
+        return response([
+            'message' => 'Unauthorization'
+        ]);
     }
 
     public function destroy(Request $request)
