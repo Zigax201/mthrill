@@ -32,9 +32,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $product = Product::where('id', $id)->get();
+        $product = Product::where('id', $request->id)->get();
 
         return response([
             'message' => 'Success Get Product',
@@ -42,9 +42,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $product = Product::where('id', $id)->get();
+        $product = Product::where('id', $request->id)->get();
 
         $product->toQuery()->update([
             'name' => $request->input('name'),
@@ -61,9 +61,9 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $product = Product::find($id);
+        $product = Product::find($request->id);
         $product->delete();
         return response(['message' => 'Success deleted']);
     }
