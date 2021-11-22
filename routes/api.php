@@ -33,11 +33,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('province', [CheckoutController::class, 'get_province']);
     Route::get('city', [CheckoutController::class, 'get_city']);
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
-    // Route::post('orders', [OrderController::class, 'create']);
-
-    // Route::get('product/{id}', [ProductController::class, 'show']);
-    Route::resource('product', ProductController::class);
-    // Route::resource('orders', OrderController::class)->only(['index', 'show']);
+    
+    
+    Route::put('product/?id={id}', [ProductController::class, 'update']);
+    Route::delete('product/?id={id}', [ProductController::class, 'destroy']);
+    Route::resource('product', ProductController::class, ['only' => ['store']]);
 });
 
-Route::resource('product', ProductController::class, ['only' => ['index', 'show']]);
+Route::get('product/?id={id}', [ProductController::class, 'show']);
+Route::resource('product', ProductController::class, ['only' => ['index']]);
+
+// Route::post('orders', [OrderController::class, 'create']);
+// Route::resource('orders', OrderController::class)->only(['index', 'show']);
