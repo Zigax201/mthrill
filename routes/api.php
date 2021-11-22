@@ -36,12 +36,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     // Route::resource('product', ProductController::class);
-    Route::put('product', [ProductController::class, 'edit']);
-    Route::delete('product', [ProductController::class, 'delete']);
+    Route::put('product/edit', [ProductController::class, 'edit']);
+    Route::delete('product/delete', [ProductController::class, 'delete']);
     Route::post('product', [ProductController::class, 'store']);
 });
 
-Route::get('product', [ProductController::class, 'show']);
+Route::get('product', [ProductController::class, 'show_by_id']);
 Route::get('products', [ProductController::class, 'show_all']);
 
 // Route::post('orders', [OrderController::class, 'create']);
