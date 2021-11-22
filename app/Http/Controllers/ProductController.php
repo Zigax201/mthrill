@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show_all()
+    public function index()
     {
         $product = Product::all();
 
@@ -17,7 +17,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store_product(Request $request)
+    public function store(Request $request)
     {
         $product = Product::create([
             'name' => $request->input('name'),
@@ -32,7 +32,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show_by_id(Request $request)
+    public function show(Request $request)
     {
         $product = Product::where('id', $request->id)->get();
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function edit(Request $request)
+    public function update(Request $request)
     {
         $product = Product::where('id', $request->id)->get();
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
         $product = Product::find($request->id);
         $product->delete();
