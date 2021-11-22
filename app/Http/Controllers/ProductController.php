@@ -42,7 +42,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function edit(Request $request)
     {
         $product = Product::where('id', $request->id)->get();
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         $product = Product::find($request->id);
         $product->delete();

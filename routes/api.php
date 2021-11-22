@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     // Route::resource('product', ProductController::class);
-    Route::put('product/edit', [ProductController::class, 'update']);
+    Route::put('product/edit', [ProductController::class, 'edit']);
     Route::delete('product/delete', [ProductController::class, 'delete']);
     Route::post('product', [ProductController::class, 'store']);
 });
