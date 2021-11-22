@@ -24,20 +24,20 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function (){
-    
+Route::middleware('auth:sanctum')->group(function () {
+
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::get('checkout',[CheckoutController::class, 'checkout']);
-    Route::get('province',[CheckoutController::class, 'get_province']);
-    Route::get('city',[CheckoutController::class, 'get_city']);
-    Route::get('ongkir',[CheckoutController::class, 'get_ongkir']);
-    Route::post('orders', [OrderController::class, 'create']);
+    Route::get('checkout', [CheckoutController::class, 'checkout']);
+    Route::get('province', [CheckoutController::class, 'get_province']);
+    Route::get('city', [CheckoutController::class, 'get_city']);
+    Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
+    // Route::post('orders', [OrderController::class, 'create']);
 
-    Route::resource('product', ProductController::class);
-    Route::get('product/{id}', [ProductController::class, 'show']);
+    // Route::get('product/{id}', [ProductController::class, 'show']);
+    Route::resource('product', ProductController::class, ['except' => ['index']]);
     // Route::resource('orders', OrderController::class)->only(['index', 'show']);
 });
 
-Route::resource('product', ProductController::class)->only(['index']);
+Route::resource('product', ProductController::class, ['only' => ['index', 'show']]);
