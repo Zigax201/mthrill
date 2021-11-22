@@ -20,16 +20,22 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $product = Product::create([
-            'name' => $request->input('name'),
-            'desc' => $request->input('desc'),
-            'price' => $request->input('price'),
-            'catalog' => $request->input('catalog')
-        ]);
+        $user = Auth::user();
+        if ($user->role == 1) {
+            $product = Product::create([
+                'name' => $request->input('name'),
+                'desc' => $request->input('desc'),
+                'price' => $request->input('price'),
+                'catalog' => $request->input('catalog')
+            ]);
 
+            return response([
+                'message' => 'Success input product',
+                'product' => $product
+            ]);
+        }
         return response([
-            'message' => 'Success input product',
-            'product' => $product
+            'message' => 'Only Admin can do this'
         ]);
     }
 
@@ -64,18 +70,23 @@ class ProductController extends Controller
                     'product' => Product::where('id', $request->id)->get()
                 ]);
             }
-
         }
 
         return response([
-            'message' => 'Unauthorization'
+            'message' => 'Only Admin can do this'
         ]);
     }
 
     public function destroy(Request $request)
     {
-        $product = Product::find($request->id);
-        $product->delete();
-        return response(['message' => 'Success deleted']);
+        $user = Auth::user();
+        if ($user->role == 1) {
+            $product = Product::find($request->id);
+            $product->delete();
+            return response(['message' => 'Success deleted']);
+        }
+        return response([
+            'message' => 'Only Admin can do this'
+        ]);
     }
 }
