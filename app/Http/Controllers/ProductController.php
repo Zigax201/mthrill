@@ -7,20 +7,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $product = Product::all();
 
-        return response([
-            'message' => 'Success Get All Product',
-            'product' => $product
-        ]);
-    }
 
     public function store(Request $request)
     {
@@ -48,7 +35,7 @@ class ProductController extends Controller
         $product = Product::where('id', $id)->get();
 
         return response([
-            'message' => 'Success Get Product '.$product->name,
+            'message' => 'Success Get Product ' . $product->name,
             'product' => $product
         ]);
     }
@@ -90,5 +77,20 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         return response(['message' => 'Success deleted']);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $product = Product::all();
+
+        return response([
+            'message' => 'Success Get All Product',
+            'product' => $product
+        ]);
     }
 }
