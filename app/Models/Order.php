@@ -11,7 +11,7 @@ class Order extends Model
 
     protected $fillable = [
         'id',
-        'number',
+        'id_user',
         'total_price',
         'payment_status',
         'snap_token',
@@ -19,8 +19,6 @@ class Order extends Model
     ];
 
     protected $hidden = [
-        'id',
-        'number',
         'snap_token'
     ];
 }
