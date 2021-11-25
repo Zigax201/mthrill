@@ -42,8 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('product', [ProductController::class, 'store_product']);
     // Route::post('orders', [OrderController::class, 'create']);
     // Route::resource('orders', OrderController::class)->only(['show']);
-    Route::resource('transaction', [TransactionController::class, 'snapPage']);
-    Route::resource('transaction/status', [TransactionController::class, 'status']);
+    Route::get('transaction', [TransactionController::class, 'snapPage']);
+    Route::get('transaction/status', [TransactionController::class, 'status']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
