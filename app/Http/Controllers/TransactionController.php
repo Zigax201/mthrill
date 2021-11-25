@@ -18,9 +18,11 @@ class TransactionController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
+        $order_id = rand();
+
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id,
                 'gross_amount' => 10000,
             ),
             'customer_details' => array(
@@ -35,6 +37,7 @@ class TransactionController extends Controller
 
         return response([
             'Message' => 'Order Received',
+            'order_id' => $order_id,
             'snap_token' => $snapToken,
             'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/'.$snapToken
         ]);
