@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,11 +39,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::put('product', [ProductController::class, 'edit']);
     // Route::delete('product', [ProductController::class, 'delete']);
     // Route::post('product', [ProductController::class, 'store_product']);
+    // Route::post('orders', [OrderController::class, 'create']);
+    Route::resource('orders', OrderController::class)->only(['show']);
+    Route::resource('orders/status', [OrderController::class, 'status']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
 // Route::get('product', [ProductController::class, 'show_by_id']);
 // Route::get('products', [ProductController::class, 'show_all']);
-
-// Route::post('orders', [OrderController::class, 'create']);
-// Route::resource('orders', OrderController::class)->only(['index', 'show']);
