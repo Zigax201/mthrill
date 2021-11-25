@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
+use App\Models\transaction;
 // use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,8 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('product', [ProductController::class, 'store_product']);
     // Route::post('orders', [OrderController::class, 'create']);
     // Route::resource('orders', OrderController::class)->only(['show']);
-    Route::resource('transaction', [OrderController::class, 'snapPage']);
-    Route::resource('transaction/status', [OrderController::class, 'status']);
+    Route::resource('transaction', [TransactionController::class, 'snapPage']);
+    Route::resource('transaction/status', [TransactionController::class, 'status']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
