@@ -35,7 +35,8 @@ class TransactionController extends Controller
 
         return response([
             'Message' => 'Order Received',
-            $snapToken
+            'snap_token' => $snapToken,
+            'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/'.$snapToken
         ]);
         // $snapToken = $order->snap_token;
         // if (is_null($snapToken)) {
@@ -50,7 +51,7 @@ class TransactionController extends Controller
 
         // return view('orders.show', compact('order', 'snapToken'));
     }
-    
+
     public function status(Request $request)
     {
         $authz = base64_encode("SB-Mid-server-jHiRIe0iXX-6GM6owv1hXRYi:");
