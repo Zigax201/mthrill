@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Cart;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -12,16 +11,21 @@ class CartController extends Controller
 
     public function store_cart(Request $request)
     {
-        if (Cart::where('id_product', $request->id_product)->count() > 0) {
+        if (
+            Cart::where('id_product', $request->id_product)
+            ->where('id_user', $request->id_user)->count() > 0
+        ) {
             // $cart = Cart::where('id_product', $request->id_product)->first();
             // $cart->toQuery()->update([
             //     'qty' => ($cart->qty + $request->qty)
             // ]);
-            $cart = Cart::where('id_product', $request->id_product)->first();
+            $cart = Cart::where('id_product', $request->id_product)
+                ->where('id_user', $request->id_user)->first();
 
             $new_qty = $cart->qty + $request->qty;
 
             Cart::where('id_product', $request->id_product)
+                ->where('id_user', $request->id_user)
                 ->update(['qty' => $new_qty]);
         } else {
             $cart = Cart::create([
