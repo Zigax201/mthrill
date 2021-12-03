@@ -38,8 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     Route::resource('product', ProductController::class);
-    Route::post('cart', [CartController::class, 'store_cart']);
-    Route::delete('cart', [CartController::class, 'delete_cart']);
+    Route::post('cart/store', [CartController::class, 'store_cart']);
+    Route::delete('cart/delete', [CartController::class, 'delete_cart']);
     Route::get('carts', [CartController::class, 'cart']);
     // Route::put('product', [ProductController::class, 'edit']);
     // Route::delete('product', [ProductController::class, 'delete']);
