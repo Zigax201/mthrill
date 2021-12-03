@@ -22,20 +22,22 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 1) {
-            $product = Product::create([
-                'name' => $request->input('name'),
-                'desc' => $request->input('desc'),
-                'price' => $request->input('price'),
-                'tinggi' => $request->input('tinggi'),
-                'berat' => $request->input('berat'),
-                'warna' => $request->input('warna'),
-                'jenis' => $request->input('jenis'),
-                'catalog' => $request->input('catalog')
-            ]);
+            // $product = Product::create([
+            //     'name' => $request->input('name'),
+            //     'desc' => $request->input('desc'),
+            //     'price' => $request->input('price'),
+            //     'tinggi' => $request->input('tinggi'),
+            //     'berat' => $request->input('berat'),
+            //     'warna' => $request->input('warna'),
+            //     'jenis' => $request->input('jenis'),
+            //     'catalog' => $request->input('catalog')
+            // ]);
 
             return response([
                 'message' => 'Success input product',
-                'product' => $product
+                'product1' => $request->berat,
+                'product2' => $request->input('berat'),
+                'product3' => $request
             ]);
         }
         return response([
