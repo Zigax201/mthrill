@@ -46,20 +46,20 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::delete('catalog', [CatalogController::class, 'delete_catalog']);
     Route::post('catalog', [CatalogController::class, 'store_catalog']);
-    Route::get('catalogs', [CatalogController::class, 'get_catalog']);
-    Route::get('catalog/product', [CatalogController::class, 'catalog_product']);
-
     // Route::put('product', [ProductController::class, 'edit']);
     // Route::delete('product', [ProductController::class, 'delete']);
     // Route::post('product', [ProductController::class, 'store_product']);
     // Route::post('orders', [OrderController::class, 'create']);
     // Route::resource('orders', OrderController::class)->only(['show']);
-
+    
     Route::get('transaction', [TransactionController::class, 'snapPage']);
     Route::get('transaction/status', [TransactionController::class, 'status']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
+
+Route::get('catalogs', [CatalogController::class, 'get_catalog']);
+Route::get('catalog/product', [CatalogController::class, 'catalog_product']);
 
 // Route::get('product', [ProductController::class, 'show_by_id']);
 // Route::get('products', [ProductController::class, 'show_all']);
