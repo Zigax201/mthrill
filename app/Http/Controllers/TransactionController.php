@@ -49,6 +49,8 @@ class TransactionController extends Controller
             'snap_token' => $snapToken
         ]);
 
+        $transaction->save();
+
         return response([
             'Message' => 'Order Received',
             'transaction' => $transaction,
