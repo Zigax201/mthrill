@@ -102,7 +102,7 @@ class TransactionController extends Controller
                     ->update(['payment_status' => 2]);
 
                 
-                $cart = Cart::where('id_user', $request->id_user)->get();
+                $cart = Cart::where('id_user', $request->id_user);
                 $cart->delete();
             }
             return $response;
