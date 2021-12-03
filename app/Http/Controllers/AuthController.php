@@ -78,4 +78,8 @@ class AuthController extends Controller
             return response(['message'=>'Success get Users','users'=>User::find($request->id_user)]);
         }
     }
+
+    public function profilePicture(){
+        return response()->download(public_path('kisspng-emoticon-smiley-wink-clip-art-emot-5b23b480887fb9.8509771715290666245591.png'), "User Image");
+    }
 }
