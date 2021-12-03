@@ -35,6 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('users', [AuthController::class, 'get_all_user']);
     Route::get('user/id', [AuthController::class, 'get_user_by_id']);
+    
+    Route::get('user/photo', [AuthController::class, 'profilePicture']);
 
     Route::get('checkout', [CheckoutController::class, 'checkout']);
     Route::get('province', [CheckoutController::class, 'get_province']);
