@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     Route::resource('product', ProductController::class);
+    Route::get('prod/uploadPhoto', [ProductController::class, 'upload_productPicture']);
 
     
     Route::post('cart/store', [CartController::class, 'store_cart']);
@@ -66,7 +67,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('prod/downloadPhoto', [ProductController::class, 'download_productPicture']);
-Route::get('prod/uploadPhoto', [ProductController::class, 'upload_productPicture']);
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
 
