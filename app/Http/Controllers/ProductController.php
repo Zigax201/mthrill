@@ -107,8 +107,9 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        $path = $request->file('photo')->move(public_path('/'), $request->file_name);
-        $photoURL = url('/' . $request->file_name);
+        $fileName = "product_image.jpg";
+        $path = $request->file('image')->move(public_path('/'), $fileName);
+        $photoURL = url('/' . $fileName);
         return response(['request'=>$request->file_name])->json(['url'=>$photoURL], 200);
         
         // if ($request->hasFile('photo')) {

@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     Route::resource('product', ProductController::class);
-    Route::post('prod/uploadPhoto', [ProductController::class, 'upload_productPicture']);
+    Route::get('prod/uploadPhoto', [ProductController::class, 'upload_productPicture']);
 
     
     Route::post('cart/store', [CartController::class, 'store_cart']);
