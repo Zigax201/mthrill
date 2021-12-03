@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\photouser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -47,15 +48,15 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
-        if ($user->role == 1){
+        if ($user->role == 1) {
             return response([
-                'message'=>'Welcome Admin',
-                'profile'=>$user
+                'message' => 'Welcome Admin',
+                'profile' => $user
             ]);
-        }elseif($user->role == 0){
+        } elseif ($user->role == 0) {
             return response([
-                'message'=>'Welcome Customer',
-                'profile'=>$user
+                'message' => 'Welcome Customer',
+                'profile' => $user
             ]);
         }
     }
@@ -68,18 +69,35 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-    public function get_all_user(){
-        if(Auth::user()->role == 1){
-            return response(['message'=>'Success get all Users','users'=>User::all()]);
+    public function get_all_user()
+    {
+        if (Auth::user()->role == 1) {
+            return response(['message' => 'Success get all Users', 'users' => User::all()]);
         }
     }
-    public function get_user_by_id(Request $request){
-        if(Auth::user()->role == 1){
-            return response(['message'=>'Success get Users','users'=>User::find($request->id_user)]);
+    public function get_user_by_id(Request $request)
+    {
+        if (Auth::user()->role == 1) {
+            return response(['message' => 'Success get Users', 'users' => User::find($request->id_user)]);
         }
     }
 
-    public function profilePicture(){
-        return response()->download(public_path('kisspng-emoticon-smiley-wink-clip-art-emot-5b23b480887fb9.8509771715290666245591.png'), "User Image");
+    public function download_profilePicture(Request $request)
+    {
+        $file_name = photouser::find($request->id_user);
+        return response()->download(public_path($file_name->path), "User Image");
+    }
+
+    public function upload_profilePicture(Request $request)
+    {
+        $path = $request->file('photo')->move(public_path("/"), $request->file_name);
+        $photoURL = url('/' . $request->file_name);
+
+        $photo = photouser::create([
+            'id_user' => $request->id_user,
+            'path' => $request->file_name
+        ]);
+
+        return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
     }
 }

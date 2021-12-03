@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\photoproduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -98,4 +99,22 @@ class ProductController extends Controller
         ]);
     }
 
+    public function download_profilePicture(Request $request)
+    {
+        $file_name = photoproduct::find($request->id_product);
+        return response()->download(public_path($file_name->path), "Product Image");
+    }
+
+    public function upload_profilePicture(Request $request)
+    {
+        $path = $request->file('photo')->move(public_path("/"), $request->file_name);
+        $photoURL = url('/' . $request->file_name);
+
+        $photo = photoproduct::create([
+            'id_product' => $request->id_product,
+            'path' => $request->file_name
+        ]);
+
+        return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
+    }
 }
