@@ -14,6 +14,10 @@ class Product extends Model
         'name',
         'desc',
         'price',
+        'tinggi',
+        'berat',
+        'warna',
+        'jenis',
         'catalog',
         'timestamp'
     ];
