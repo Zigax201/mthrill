@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Cart;
 use App\Models\Catalog;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -29,7 +28,15 @@ class CatalogController extends Controller
     }
 
     public function catalog_product(Request $request){
-        $list_product = Catalog::where('catalog', $request->id_catalog)->get();
+        $list_product = Product::where('catalog', $request->id_catalog)->get();
+
+        // $list_product = array();
+
+        // foreach ($catalog as $value) {
+        //     $product = Product::find($value->id_product);
+        //     $product->qty = Cart::find($value->id)->qty;
+        //     array_push($list_product, $product);
+        // }
 
         return response([
             'message' => 'Success get cart',
