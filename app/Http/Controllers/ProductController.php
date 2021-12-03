@@ -128,7 +128,7 @@ class ProductController extends Controller
     
             return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
         }
-         return response(['message'=> 'no file']);
+         return response(['message'=> 'no file', 'request'=>$request]);
 
     }
 }
