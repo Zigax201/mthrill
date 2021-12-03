@@ -110,9 +110,9 @@ class ProductController extends Controller
         // $path = $request->file('photo')->move(public_path('/'), $request->file_name);
         // $photoURL = url('/' . $request->file_name);
         
-        if ($request->hasFile('file')) {
+        if ($request->hasFile('photo')) {
             $destinationPath = public_path('/');
-            $files = $request->file('file'); // will get all files
+            $files = $request->file('photo'); // will get all files
             
             foreach ($files as $file) {//this statement will loop through all files.
                 $file_name = $file->getClientOriginalName(); //Get file original name
