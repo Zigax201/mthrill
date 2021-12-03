@@ -12,24 +12,22 @@ class CartController extends Controller
 
     public function store_cart(Request $request)
     {
-        // $cart = Cart::create([
-        //     'id_user' => $request->id_user,
-        //     'id_product' => $request->id_product,
-        //     'qty' => $request->qty 
-        // ]);
-        // if(Cart::where('id_product', $request->id_product)->count()>0){
-        // } else {
-        //     $cart = Cart::where('id_product', $request->id_product)->get();
-        //     $cart->toQuery()->update([
-        //         'qty' => ($cart->qty + $request->qty)
-        //     ]);
-        // }
+        if(Cart::where('id_product', $request->id_product)->count()>0){
+            $cart = Cart::create([
+                'id_user' => $request->id_user,
+                'id_product' => $request->id_product,
+                'qty' => $request->qty 
+            ]);
+        } else {
+            $cart = Cart::where('id_product', $request->id_product)->get();
+            $cart->toQuery()->update([
+                'qty' => ($cart->qty + $request->qty)
+            ]);
+        }
 
         return response([
             'message' => 'Success input cart',
-            'cart' => $request->id_user,
-            'cart2' => $request->id_product,
-            'cart3' => $request->qty
+            'cart' => $cart
         ]);
     }
     
