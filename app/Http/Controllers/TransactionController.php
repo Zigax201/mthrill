@@ -113,7 +113,7 @@ class TransactionController extends Controller
 
     public function get_transaction(Request $request)
     {
-        $transaction = transaction::where('id_user', $request->id_user);
+        $transaction = transaction::where('id_user', $request->id_user)->get();
         return response([
             'message' => 'Succes get all transaction for user',
             'Transactions' =>  $transaction
