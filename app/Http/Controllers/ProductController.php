@@ -107,8 +107,8 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        $path = $request->file('photo')->move(public_path('/photoproduct' . '/'), $request->file_name);
-        $photoURL = url('/photoproduct' . '/' . $request->file_name);
+        $path = $request->file('photo')->move(public_path('/photoproduct/"'), $request->file_name);
+        $photoURL = url('/photoproduct/"' . $request->file_name);
 
         $photo = photoproduct::create([
             'id_product' => $request->id_product,
