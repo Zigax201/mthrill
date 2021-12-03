@@ -107,14 +107,28 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        $path = $request->file('photo')->move(public_path('/'), $request->file_name);
-        $photoURL = url('/' . $request->file_name);
+        // $path = $request->file('photo')->move(public_path('/'), $request->file_name);
+        // $photoURL = url('/' . $request->file_name);
+        
+        if ($request->hasFile('file')) {
+            $destinationPath = public_path('/');
+            $files = $request->file('file'); // will get all files
+            
+            foreach ($files as $file) {//this statement will loop through all files.
+                $file_name = $file->getClientOriginalName(); //Get file original name
+                $file->move($destinationPath , $file_name); // move files to destination folder
+            }
+            
+            $photoURL = url('/' . $request->file_name);
 
-        $photo = photoproduct::create([
-            'id_product' => $request->id_product,
-            'path' => $photoURL
-        ]);
+            $photo = photoproduct::create([
+                'id_product' => $request->id_product,
+                'path' => $photoURL
+            ]);
+    
+            return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
+        }
+         return response(['message'=> 'no file']);
 
-        return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
     }
 }
