@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\transaction;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Midtrans\Transaction as MidtransTransaction;
@@ -96,8 +97,12 @@ class TransactionController extends Controller
         } else {
             $response = json_decode($response, true);
             if ($response->transaction_status == "capture" || $response->transaction_status == "settlement") {
+                
                 transaction::where('number', $request->order_id)
                     ->update(['payment_status' => 2]);
+
+                $cart = Cart::where('id_user', $request->id_user)->get();
+                $cart->delete();
             }
             return $response;
         }
