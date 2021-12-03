@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\transaction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Midtrans\Transaction as MidtransTransaction;
 
 class TransactionController extends Controller
 {
-    public function snapPage()
+    public function snapPage(Request $request)
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = 'SB-Mid-server-jHiRIe0iXX-6GM6owv1hXRYi';
@@ -18,28 +20,36 @@ class TransactionController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
+        $user = Auth::user();
+
         $order_id = rand();
 
         $params = array(
             'transaction_details' => array(
                 'order_id' => $order_id,
-                'gross_amount' => 10000,
+                'gross_amount' => $request->total_price,
             ),
             'customer_details' => array(
-                'first_name' => 'budi',
-                'last_name' => 'pratama',
-                'email' => 'budi.pra@example.com',
-                'phone' => '08111222333',
+                'first_name' => $user->name,
+                'last_name' => '',
+                'email' => $user->email,
+                'phone' => $user->noHP,
             ),
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
+        $transaction = transaction::create([
+            'number' => $order_id,
+            'total_price' => $request->total_price,
+            'payment_status' => 1,
+            'snap_token' => $snapToken
+        ]);
+
         return response([
             'Message' => 'Order Received',
-            'order_id' => $order_id,
-            'snap_token' => $snapToken,
-            'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/'.$snapToken
+            'transaction' => $transaction,
+            'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/' . $snapToken
         ]);
         // $snapToken = $order->snap_token;
         // if (is_null($snapToken)) {
@@ -85,6 +95,10 @@ class TransactionController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             $response = json_decode($response, true);
+            if ($response->transaction_status == "capture" || $response->transaction_status == "settlement") {
+                transaction::where('number', $request->order_id)
+                    ->update(['payment_status' => 2]);
+            }
             return $response;
         }
     }
