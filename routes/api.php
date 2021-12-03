@@ -33,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
     
+    Route::get('users', [AuthController::class, 'get_all_user']);
+    Route::get('user/id', [AuthController::class, 'get_user_by_id']);
+
     Route::get('checkout', [CheckoutController::class, 'checkout']);
     Route::get('province', [CheckoutController::class, 'get_province']);
     Route::get('city', [CheckoutController::class, 'get_city']);
@@ -54,6 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('transaction', [TransactionController::class, 'snapPage']);
     Route::get('transaction/status', [TransactionController::class, 'status']);
+    Route::get('transactions', [TransactionController::class, 'get_transaction']);
+    Route::get('transaction/id', [TransactionController::class, 'get_transaction_by_id']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);

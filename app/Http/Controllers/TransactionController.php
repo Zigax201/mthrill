@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\transaction;
 use App\Models\Cart;
+use App\Models\user;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Midtrans\Transaction as MidtransTransaction;
@@ -41,7 +42,8 @@ class TransactionController extends Controller
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         $transaction = transaction::create([
-            'number' => strval( $order_id ) ,
+            'id_user' => $request->id_user,
+            'number' => strval($order_id),
             'total_price' => $request->total_price,
             'payment_status' => 1,
             'snap_token' => $snapToken
@@ -97,15 +99,34 @@ class TransactionController extends Controller
         } else {
             $response = json_decode($response, true);
             if ($response['transaction_status'] == 'capture' || $response['transaction_status'] == 'settlement') {
-                
+
                 transaction::where('number', $request->order_id)
                     ->update(['payment_status' => 2]);
 
-                
+
                 $cart = Cart::where('id_user', $request->id_user);
                 $cart->delete();
             }
             return $response;
         }
+    }
+
+    public function get_transaction(Request $request)
+    {
+        $transaction = transaction::where('id_user', $request->id_user);
+        return response([
+            'message' => 'Succes get all transaction for user ' . User::find($request->id_user)->name,
+            'Transactions' =>  $transaction
+        ]);
+    }
+
+    public function get_transaction_by_id(Request $request)
+    {
+        $transaction = transaction::where('id_user', $request->id_user)
+            ->where('id', $request->id_transaksi);
+        return response([
+            'message' => 'Succes get transaction',
+            'Transactions' =>  $transaction
+        ]);
     }
 }

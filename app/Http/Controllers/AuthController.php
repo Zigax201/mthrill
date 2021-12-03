@@ -67,4 +67,15 @@ class AuthController extends Controller
             'message' => 'Success'
         ])->withCookie($cookie);
     }
+
+    public function get_all_user(){
+        if(Auth::user()->role == 1){
+            return response(['message'=>'Success get all Users','users'=>User::all()]);
+        }
+    }
+    public function get_user_by_id(Request $request){
+        if(Auth::user()->role == 1){
+            return response(['message'=>'Success get Users','users'=>User::find($request->id_user)]);
+        }
+    }
 }
