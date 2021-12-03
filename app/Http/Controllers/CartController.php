@@ -22,7 +22,7 @@ class CartController extends Controller
         ]);
 
         return response([
-            'message' => 'Success input product',
+            'message' => 'Success input cart',
             'cart' => $cart
         ]);
     }
@@ -46,6 +46,6 @@ class CartController extends Controller
     {
         $cart = Cart::where('id_product', $request->id_product);
         $cart->delete();
-        return response(['message' => 'Success deleted']);
+        return response(['message' => 'Success deleted cart']);
     }
 }
