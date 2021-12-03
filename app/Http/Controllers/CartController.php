@@ -45,7 +45,7 @@ class CartController extends Controller
 
         foreach ($cart as $value) {
             $product = Product::find($value->id_product);
-            array_push($product, 'qty : ' . Cart::find($value->id)->qty);
+            $product->qty = Cart::find($value->id)->qty;
             array_push($list_product, $product);
         }
 
