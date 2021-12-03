@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\TransactionController;
 // use App\Http\Controllers\OrderController;
 // use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     Route::resource('product', ProductController::class);
-    // Route::get('cart', [ProductController::class, 'store_cart']);
-    // Route::delete('cart', [ProductController::class, 'delete_cart']);
+    Route::post('cart', [CartController::class, 'cart']);
+    Route::get('cart', [CartController::class, 'store_cart']);
+    Route::delete('cart', [CartController::class, 'delete_cart']);
     // Route::put('product', [ProductController::class, 'edit']);
     // Route::delete('product', [ProductController::class, 'delete']);
     // Route::post('product', [ProductController::class, 'store_product']);
