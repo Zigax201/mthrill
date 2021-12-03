@@ -115,7 +115,7 @@ class TransactionController extends Controller
     {
         $transaction = transaction::where('id_user', $request->id_user);
         return response([
-            'message' => 'Succes get all transaction for user ' . User::find($request->id_user)->name,
+            'message' => 'Succes get all transaction for user',
             'Transactions' =>  $transaction
         ]);
     }
