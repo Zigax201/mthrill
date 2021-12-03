@@ -14,12 +14,19 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $product = Product::find($request->id_product);
+        $cart = Cart::where('id_product', $product->id)->get();
 
-        $cart = Cart::create([
-            'id_user' => $user->id,
-            'id_product' => $product->id,
-            'qty' => $request->qty 
-        ]);
+        if($cart == null){
+            $cart = Cart::create([
+                'id_user' => $user->id,
+                'id_product' => $product->id,
+                'qty' => $request->qty 
+            ]);
+        } else {
+            $cart->toQuery()->update([
+                'qty' => ($cart->qty + $request->qty)
+            ]);
+        }
 
         return response([
             'message' => 'Success input cart',
@@ -29,11 +36,11 @@ class CartController extends Controller
     
     public function cart(Request $request){
         $cart = Cart::where('id_user', $request->id_user)->get();
-        
+
         $list_product=array();
         
         foreach ($cart as $value) {
-            array_push($list_product,Product::find($value->id_product));
+            array_push($list_product,Product::find($value->id_product).'qty : '.Cart::find($value->id)->qty);
           }
 
         return response([
