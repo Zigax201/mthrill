@@ -12,11 +12,11 @@ class CartController extends Controller
 
     public function store_cart(Request $request)
     {
-        $cart = Cart::create([
-            'id_user' => $request->id_user,
-            'id_product' => $request->id_product,
-            'qty' => $request->qty 
-        ]);
+        // $cart = Cart::create([
+        //     'id_user' => $request->id_user,
+        //     'id_product' => $request->id_product,
+        //     'qty' => $request->qty 
+        // ]);
         // if(Cart::where('id_product', $request->id_product)->count()>0){
         // } else {
         //     $cart = Cart::where('id_product', $request->id_product)->get();
@@ -27,7 +27,9 @@ class CartController extends Controller
 
         return response([
             'message' => 'Success input cart',
-            'cart' => $cart
+            'cart' => $request->id_user,
+            'cart2' => $request->id_product,
+            'cart3' => $request->qty
         ]);
     }
     
