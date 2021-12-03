@@ -27,19 +27,18 @@ class CartController extends Controller
         ]);
     }
     
-    public function cart(){
-        $user = Auth::user();
-        $cart = Cart::where('id_user', $user->id)->get();
+    public function cart(Request $request){
+        $cart = Cart::where('id_user', $request->id_user)->get();
         
-        // $list_product=array();
+        $list_product=array();
         
-        // foreach ($cart as $value) {
-        //     array_push($list_product,Product::find($value->id_product));
-        //   }
+        foreach ($cart as $value) {
+            array_push($list_product,Product::find($value->id_product));
+          }
 
         return response([
             'message' => 'Success get cart',
-            'cart' => $cart
+            'cart' => $list_product
         ]);
     }
 
