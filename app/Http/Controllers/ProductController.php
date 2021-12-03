@@ -35,7 +35,7 @@ class ProductController extends Controller
 
             return response([
                 'message' => 'Success input product',
-                'product' => $request
+                'product' => $request->request
             ]);
         }
         return response([
