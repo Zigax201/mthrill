@@ -96,7 +96,7 @@ class TransactionController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             $response = json_decode($response, true);
-            if ($response->transaction_status == "capture" || $response->transaction_status == "settlement") {
+            if ($response['transaction_status'] == 'capture' || $response['transaction_status'] == 'settlement') {
                 
                 transaction::where('number', $request->order_id)
                     ->update(['payment_status' => 2]);
