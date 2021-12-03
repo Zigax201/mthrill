@@ -16,7 +16,7 @@ class CartController extends Controller
         $product = Product::find($request->id_product);
         $cart = Cart::where('id_product', $product->id)->get();
 
-        if($cart == null){
+        if($cart === null){
             $cart = Cart::create([
                 'id_user' => $user->id,
                 'id_product' => $product->id,
