@@ -31,15 +31,15 @@ class CartController extends Controller
         $user = Auth::user();
         $cart = Cart::where('id_user', $user->id)->get();
         
-        $list_product=array();
+        // $list_product=array();
         
-        foreach ($cart as $value) {
-            array_push($list_product,Product::find($value->id_product));
-          }
+        // foreach ($cart as $value) {
+        //     array_push($list_product,Product::find($value->id_product));
+        //   }
 
         return response([
             'message' => 'Success get cart',
-            'cart' => $list_product
+            'cart' => $cart
         ]);
     }
 
