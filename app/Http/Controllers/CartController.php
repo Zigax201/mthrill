@@ -44,12 +44,12 @@ class CartController extends Controller
         $list_product = array();
 
         foreach ($cart as $value) {
-            array_push($list_product, json_decode(Product::find($value->id_product) . 'qty : ' . Cart::find($value->id)->qty));
+            array_push($list_product, Product::find($value->id_product) . 'qty : ' . Cart::find($value->id)->qty);
         }
 
         return response([
             'message' => 'Success get cart',
-            'cart' => json_encode($list_product)
+            'cart' => $list_product
         ]);
     }
 
