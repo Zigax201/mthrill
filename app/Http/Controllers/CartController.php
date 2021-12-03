@@ -13,10 +13,14 @@ class CartController extends Controller
     public function store_cart(Request $request)
     {
         if (Cart::where('id_product', $request->id_product)->count() > 0) {
-            $cart = Cart::where('id_product', $request->id_product)->firstOrFail();
-            $cart->toQuery()->update([
-                'qty' => ($cart->qty + $request->qty)
-            ]);
+            // $cart = Cart::where('id_product', $request->id_product)->first();
+            // $cart->toQuery()->update([
+            //     'qty' => ($cart->qty + $request->qty)
+            // ]);
+            $cart = Cart::where('id_product', $request->id_product)->first();
+            $new_qty = $cart->qty + $request->qty;
+            Cart::where('id_product', $request->id_product)
+                ->update(['qty' => $new_qty]);
         } else {
             $cart = Cart::create([
                 'id_user' => $request->id_user,
