@@ -18,7 +18,9 @@ class CartController extends Controller
             //     'qty' => ($cart->qty + $request->qty)
             // ]);
             $cart = Cart::where('id_product', $request->id_product)->first();
+
             $new_qty = $cart->qty + $request->qty;
+
             Cart::where('id_product', $request->id_product)
                 ->update(['qty' => $new_qty]);
         } else {
@@ -42,7 +44,7 @@ class CartController extends Controller
         $list_product = array();
 
         foreach ($cart as $value) {
-            array_push($list_product, Product::find($value->id_product) . 'qty : ' . Cart::find($value->id)->qty);
+            array_push($list_product, json_decode(Product::find($value->id_product) . 'qty : ' . Cart::find($value->id)->qty));
         }
 
         return response([
