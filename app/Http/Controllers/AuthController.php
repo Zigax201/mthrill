@@ -90,8 +90,8 @@ class AuthController extends Controller
 
     public function upload_profilePicture(Request $request)
     {
-        $path = $request->file('photo')->move(public_path("/"), $request->file_name);
-        $photoURL = url('/' . $request->file_name);
+        $path = $request->file('photo')->move(public_path('/photouser' . '/'), $request->file_name);
+        $photoURL = url('/photouser' . '/' . $request->file_name);
 
         $photo = photouser::create([
             'id_user' => $request->id_user,
