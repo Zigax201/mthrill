@@ -65,8 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('transaction/id', [TransactionController::class, 'get_transaction_by_id']);
 });
 
-Route::get('user/downloadPhoto', [AuthController::class, 'profilePicture']);
-Route::get('user/uploadPhoto', [AuthController::class, 'profilePicture']);
+Route::get('prod/downloadPhoto', [ProductController::class, 'download_productPicture']);
+Route::get('prod/uploadPhoto', [ProductController::class, 'upload_productPicture']);
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
 
