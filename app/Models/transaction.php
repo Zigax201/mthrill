@@ -11,7 +11,7 @@ class transaction extends Model
 
     protected $fillable = [
         'id',
-        'id_user',
+        'number',
         'total_price',
         'payment_status',
         'snap_token',
