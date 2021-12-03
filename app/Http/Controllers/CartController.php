@@ -12,37 +12,38 @@ class CartController extends Controller
 
     public function store_cart(Request $request)
     {
-        $cart = Cart::create([
-            'id_user' => $request->id_user,
-            'id_product' => $request->id_product,
-            'qty' => $request->qty 
-        ]);
-        // if(Cart::where('id_product', $request->id_product)->count()>0){
-        // } else {
-        //     $cart = Cart::where('id_product', $request->id_product)->get();
-        //     $cart->toQuery()->update([
-        //         'qty' => ($cart->qty + $request->qty)
-        //     ]);
-        // }
+        if (Cart::where('id_product', $request->id_product)->count() > 0) {
+            $cart = Cart::where('id_product', $request->id_product)->get();
+            $cart->toQuery()->update([
+                'qty' => ($cart->qty + $request->qty)
+            ]);
+        } else {
+            $cart = Cart::create([
+                'id_user' => $request->id_user,
+                'id_product' => $request->id_product,
+                'qty' => $request->qty
+            ]);
+        }
 
         return response([
             'message' => 'Success input cart',
             'cart' => $cart
         ]);
     }
-    
-    public function cart(Request $request){
+
+    public function cart(Request $request)
+    {
         $cart = Cart::where('id_user', $request->id_user)->get();
 
-        $list_product=array();
-        
+        $list_product = array();
+
         foreach ($cart as $value) {
-            array_push($list_product,Product::find($value->id_product).'qty : '.Cart::find($value->id)->qty);
-          }
+            array_push($list_product, Product::find($value->id_product) . 'qty : ' . Cart::find($value->id)->qty);
+        }
 
         return response([
             'message' => 'Success get cart',
-            'cart' => $list_product
+            'cart' => json_encode($list_product)
         ]);
     }
 
