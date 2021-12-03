@@ -45,7 +45,7 @@ class ProductController extends Controller
 
     public function show(Request $request)
     {
-        $product = Product::where('id', $request->id)->get();
+        $product = Product::where('id', $request->id)->first();
 
         return response([
             'message' => 'Success Get Product',
