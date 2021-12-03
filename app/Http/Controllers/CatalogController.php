@@ -45,7 +45,7 @@ class CatalogController extends Controller
     }
     
     public function delete_catalog(Request $request){
-        $catalog = Catalog::find($request->id);
+        $catalog = Catalog::find($request->id_catalog);
         $catalog->delete();
         return response([
             'message' => 'Success delete catalog'
