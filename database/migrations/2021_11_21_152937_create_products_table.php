@@ -18,6 +18,10 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->longText('desc')->nullable();
             $table->decimal('price', 10, 2);
+            $table->integer('tinggi')->nullable();
+            $table->integer('berat');
+            $table->string('warna')->nullable();
+            $table->string('jenis')->nullable();
             $table->integer('catalog');
             $table->timestamps();
         });

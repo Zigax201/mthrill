@@ -26,6 +26,10 @@ class ProductController extends Controller
                 'name' => $request->input('name'),
                 'desc' => $request->input('desc'),
                 'price' => $request->input('price'),
+                'tinggi' => $request->input('tinggi'),
+                'berat' => $request->input('berat'),
+                'warna' => $request->input('warna'),
+                'jenis' => $request->input('jenis'),
                 'catalog' => $request->input('catalog')
             ]);
 
@@ -61,6 +65,10 @@ class ProductController extends Controller
                 'name' => $request->input('name'),
                 'desc' => $request->input('desc'),
                 'price' => $request->input('price'),
+                'tinggi' => $request->input('tinggi'),
+                'berat' => $request->input('berat'),
+                'warna' => $request->input('warna'),
+                'jenis' => $request->input('jenis'),
                 'catalog' => $request->input('catalog')
             ]);
 
@@ -89,4 +97,5 @@ class ProductController extends Controller
             'message' => 'Only Admin can do this'
         ]);
     }
+
 }
