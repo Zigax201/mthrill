@@ -41,7 +41,7 @@ class TransactionController extends Controller
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         $transaction = transaction::create([
-            'number' => $order_id,
+            'number' => strval( $order_id ) ,
             'total_price' => $request->total_price,
             'payment_status' => 1,
             'snap_token' => $snapToken
@@ -101,6 +101,7 @@ class TransactionController extends Controller
                 transaction::where('number', $request->order_id)
                     ->update(['payment_status' => 2]);
 
+                
                 $cart = Cart::where('id_user', $request->id_user)->get();
                 $cart->delete();
             }
