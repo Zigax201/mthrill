@@ -36,8 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users', [AuthController::class, 'get_all_user']);
     Route::get('user/id', [AuthController::class, 'get_user_by_id']);
     
-    Route::get('user/photo', [AuthController::class, 'profilePicture']);
-
+    Route::get('user/downloadPhoto', [AuthController::class, 'download_profilePicture']);
+    Route::get('user/uploadPhoto', [AuthController::class, 'upload_profilePicture']);
+    
     Route::get('checkout', [CheckoutController::class, 'checkout']);
     Route::get('province', [CheckoutController::class, 'get_province']);
     Route::get('city', [CheckoutController::class, 'get_city']);
@@ -45,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::resource('product', ProductController::class);
 
+    
     Route::post('cart/store', [CartController::class, 'store_cart']);
     Route::get('cart/delete', [CartController::class, 'delete_cart']);
     Route::get('carts', [CartController::class, 'cart']);
@@ -62,6 +64,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('transactions', [TransactionController::class, 'get_transaction']);
     Route::get('transaction/id', [TransactionController::class, 'get_transaction_by_id']);
 });
+
+Route::get('user/downloadPhoto', [AuthController::class, 'profilePicture']);
+Route::get('user/uploadPhoto', [AuthController::class, 'profilePicture']);
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
 

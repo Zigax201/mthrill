@@ -99,13 +99,13 @@ class ProductController extends Controller
         ]);
     }
 
-    public function download_profilePicture(Request $request)
+    public function download_productPicture(Request $request)
     {
         $file_name = photoproduct::find($request->id_product);
         return response()->download(public_path($file_name->path), "Product Image");
     }
 
-    public function upload_profilePicture(Request $request)
+    public function upload_productPicture(Request $request)
     {
         $path = $request->file('photo')->move(public_path("/"), $request->file_name);
         $photoURL = url('/' . $request->file_name);
