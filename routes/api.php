@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\TransactionController;
 // use App\Http\Controllers\OrderController;
 // use Illuminate\Http\Request;
@@ -38,18 +39,27 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('ongkir', [CheckoutController::class, 'get_ongkir']);
     
     Route::resource('product', ProductController::class);
+
     Route::post('cart/store', [CartController::class, 'store_cart']);
     Route::get('cart/delete', [CartController::class, 'delete_cart']);
     Route::get('carts', [CartController::class, 'cart']);
+    
+    Route::delete('catalog', [CatalogController::class, 'delete_catalog']);
+    Route::post('catalog', [CatalogController::class, 'store_catalog']);
+    Route::get('catalogs', [CatalogController::class, 'get_catalog']);
+    Route::get('catalog/product', [CatalogController::class, 'catalog_product']);
+
     // Route::put('product', [ProductController::class, 'edit']);
     // Route::delete('product', [ProductController::class, 'delete']);
     // Route::post('product', [ProductController::class, 'store_product']);
     // Route::post('orders', [OrderController::class, 'create']);
     // Route::resource('orders', OrderController::class)->only(['show']);
+
     Route::get('transaction', [TransactionController::class, 'snapPage']);
     Route::get('transaction/status', [TransactionController::class, 'status']);
 });
 
 Route::resource('product', ProductController::class)->only([ 'index', 'show']);
+
 // Route::get('product', [ProductController::class, 'show_by_id']);
 // Route::get('products', [ProductController::class, 'show_all']);
