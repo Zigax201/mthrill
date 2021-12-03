@@ -39,7 +39,7 @@ class CatalogController extends Controller
         // }
 
         return response([
-            'message' => 'Success get cart',
+            'message' => 'Success get product in catalog '.Catalog::find($request->id_catalog)->name,
             'cart' => $list_product
         ]);
     }
