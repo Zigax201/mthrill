@@ -12,14 +12,13 @@ class CartController extends Controller
 
     public function store_cart(Request $request)
     {
-        $user = Auth::user();
         $product = Product::find($request->id_product);
         $cart = Cart::where('id_product', $product->id)->get();
 
         if($cart == null){
             $cart = Cart::create([
-                'id_user' => $user->id,
-                'id_product' => $product->id,
+                'id_user' => $request->id_user,
+                'id_product' => $request->id_product,
                 'qty' => $request->qty 
             ]);
         } else {
