@@ -101,19 +101,19 @@ class ProductController extends Controller
 
     public function download_productPicture(Request $request)
     {
-        $file_name = photoproduct::where('id_product', $request->id_product)->get();
-        $list_picture = array();
-        foreach ($file_name as $value) {
-            $product_picture = $value->path;
-            $photoURL = url('/photoproduct' . '/' . $product_picture);
-            array_push($list_picture, $photoURL);
-        }
+        // $file_name = photoproduct::where('id_product', $request->id_product)->get();
+        // $list_picture = array();
+        // foreach ($file_name as $value) {
+        //     $product_picture = $value->path;
+        //     $photoURL = url('/photoproduct' . '/' . $product_picture);
+        //     array_push($list_picture, $photoURL);
+        // }
 
-        return response([
-            'message' => 'Success get all picture for this product',
-            'list_picture' => $list_picture
-        ]);
-        // return response()->download(public_path('photoproduct/'.$file_name->path), "Product Image");
+        // return response([
+        //     'message' => 'Success get all picture for this product',
+        //     'list_picture' => $list_picture
+        // ]);
+        return response()->public_path($request->path);
     }
 
     public function upload_productPicture(Request $request)
