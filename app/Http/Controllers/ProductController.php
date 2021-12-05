@@ -183,34 +183,26 @@ class ProductController extends Controller
             ]);
 
             $imageName = $request->image->getClientOriginalName();
-            
-            $picture = photoproduct::all();
-            
-            $i = 0;
-            
-            foreach ($picture as $value) {
-                $value->path = str_replace('_', ' ', $value->path);
-                $imageName = basename(
-                    $request->image->getClientOriginalName(),
-                    '.' . $request->image->getClientOriginalExtension()
-                );
-                if (strpos($value->path, $imageName)) {
-                    $i++;
-                }
-            }
 
             $imageName = preg_replace('/\s+/', '_', $imageName);
 
-            if ($i > 0) {
-                $imageName = basename(
-                    $request->image->getClientOriginalName(),
-                    '.' . $request->image->getClientOriginalExtension()
-                )
-                    . ' ' . ($picture + 1) . '.' . $request->image->getClientOriginalExtension();
 
-                $imageName = preg_replace('/\s+/', '_', $imageName);
+            $i = true;
+
+            while ($i == true) {
+                $picture = photoproduct::where('path', $imageName)->count();
+                if ($picture > 0){
+                    $imageName = basename(
+                        $request->image->getClientOriginalName(),
+                        '.' . $request->image->getClientOriginalExtension()
+                    )
+                        . ' ' . ($picture + 1) . '.' . $request->image->getClientOriginalExtension();
+    
+                    $imageName = preg_replace('/\s+/', '_', $imageName);
+                } else {
+                    $i = false;
+                }
             }
-
 
             $request->image->move(public_path('photoproduct'), $imageName);
 
