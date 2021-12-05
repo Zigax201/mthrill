@@ -189,7 +189,12 @@ class ProductController extends Controller
             $picture = photoproduct::where('path', $imageName)->count();
 
             if ($picture > 0) {
-                $imageName = $imageName.($picture+1);
+                $imageName = basename(
+                    $request->image->getClientOriginalName(),
+                    '.'
+                        . $request->image->getClientOriginalExtension()
+                )
+                    . ($picture + 1) . $request->image->getClientOriginalExtension();
             }
 
             $request->image->move(public_path('photoproduct'), $imageName);
