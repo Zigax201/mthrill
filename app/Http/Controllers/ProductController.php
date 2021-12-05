@@ -113,7 +113,7 @@ class ProductController extends Controller
         //     'message' => 'Success get all picture for this product',
         //     'list_picture' => $list_picture
         // ]);
-        return response()->public_path($request->path);
+        return response()->public_path('anggrek pink.jpg');
     }
 
     public function upload_productPicture(Request $request)
@@ -122,7 +122,7 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $imageName = time() . '.' . $request->image->extension();
+        $imageName = $request->image->getClientOriginalName() . '.' . $request->image->extension();
 
         $request->image->move(public_path('photoproduct'), $imageName);
 
