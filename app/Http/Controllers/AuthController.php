@@ -49,15 +49,18 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
+        $photo = photouser::where('id_user', $user->id)->get();
         if ($user->role == 1) {
             return response([
                 'message' => 'Welcome Admin',
-                'profile' => $user
+                'profile' => $user,
+                'list' => $photo
             ]);
         } elseif ($user->role == 0) {
             return response([
                 'message' => 'Welcome Customer',
-                'profile' => $user
+                'profile' => $user,
+                'list' => $photo
             ]);
         }
     }
