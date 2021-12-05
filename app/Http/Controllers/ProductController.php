@@ -5,17 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\photoproduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $product = Product::all();
+        $all_product = Product::all();
+
+        $list_product = array();
+
+        foreach ($all_product as $value) {
+            
+            $photo = photoproduct::where('id_product', $value->id);
+            $list_picture = array();
+
+            foreach ($photo as $value) {
+                if (file_exists(public_path('photoproduct/' . $value->path))) {
+                    $product_picture = $value->path;
+                    $photoURL = url('/photoproduct' . '/' . $product_picture);
+                    array_push($list_picture, $photoURL);
+                } else {
+                    $photo = photoproduct::find($value->id);
+                    $photo->delete();
+                }
+            }
+
+            array_push($list_product, [$value, $list_picture]);
+        }
 
         return response([
             'message' => 'Success Get All Product',
-            'product' => $product
+            'product' => $list_product
         ]);
     }
 
@@ -48,9 +70,27 @@ class ProductController extends Controller
     {
         $product = Product::where('id', $request->id)->first();
 
+        $photo = photoproduct::where('id_product', $request->id)->get();
+
+        $list_picture = array();
+
+        foreach ($photo as $value) {
+            if (file_exists(public_path('photoproduct/' . $value->path))) {
+                $product_picture = $value->path;
+                $photoURL = url('/photoproduct' . '/' . $product_picture);
+                array_push($list_picture, $photoURL);
+            } else {
+                $photo = photoproduct::find($value->id);
+                $photo->delete();
+            }
+        }
+
         return response([
             'message' => 'Success Get Product',
-            'product' => $product
+            'product' => [
+                'detail_product' => $product,
+                'list_picture' => $list_picture
+            ]
         ]);
     }
 
@@ -90,8 +130,18 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 1) {
+
             $product = Product::find($request->id);
             $product->delete();
+
+            $photo = photoproduct::where('id_product', $request->id)->get();
+
+            foreach ($photo as $value) {
+                File::delete(public_path('photoproduct/' . $value->path));
+            }
+
+            photoproduct::where('id_product', $request->id)->delete();
+
             return response(['message' => 'Success deleted']);
         }
         return response([
@@ -104,9 +154,9 @@ class ProductController extends Controller
         $file_name = photoproduct::where('id_product', $request->id_product)->get();
 
         $list_picture = array();
-        
+
         foreach ($file_name as $value) {
-            if(file_exists(public_path('photoproduct/'.$value->path))){
+            if (file_exists(public_path('photoproduct/' . $value->path))) {
                 $product_picture = $value->path;
                 $photoURL = url('/photoproduct' . '/' . $product_picture);
                 array_push($list_picture, $photoURL);
@@ -125,25 +175,41 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $user = Auth::user();
+        if ($user->role == 1) {
 
-        $imageName = $request->image->getClientOriginalName();
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-        $imageName = preg_replace('/\s+/', '_', $imageName);
+            $imageName = $request->image->getClientOriginalName();
 
-        $request->image->move(public_path('photoproduct'), $imageName);
+            $imageName = preg_replace('/\s+/', '_', $imageName);
 
-        $photo = photoproduct::create([
-            'id_product' => $request->id_product,
-            'path' => $imageName
-        ]);
+            $request->image->move(public_path('photoproduct'), $imageName);
 
-        $photo->save();
+            $photo = photoproduct::create([
+                'id_product' => $request->id_product,
+                'path' => $imageName
+            ]);
 
-        $photoURL = url('/photoproduct' . '/' . $imageName);
+            $photo->save();
 
-        return response(['fileName' => $imageName, 'url' => $photoURL]);
+            $photoURL = url('/photoproduct' . '/' . $imageName);
+
+            return response(['fileName' => $imageName, 'url' => $photoURL]);
+        } else {
+            return response(['message' => 'Only admins can do this']);
+        }
+    }
+
+    public function delete_productPicture(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->role == 1) {
+            photoproduct::where('id_product', $request->id_product)->delete();
+        } else {
+            return response(['message' => 'Only admins can do this']);
+        }
     }
 }
