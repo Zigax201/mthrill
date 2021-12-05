@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function download_productPicture(Request $request)
     {
         $file_name = photoproduct::find($request->id_product);
-        return response()->download(public_path($file_name->path), "Product Image");
+        return response()->download(public_path('photoproduct/'.$file_name->path), "Product Image");
     }
 
     public function upload_productPicture(Request $request)
@@ -114,8 +114,7 @@ class ProductController extends Controller
         $imageName = time().'.'.$request->image->extension();  
      
         $request->image->move(public_path('photoproduct'), $imageName);
-        // $pathToFile = Storage::disk('public')->put('uploads/', $file);
-        /* Store $imageName name in DATABASE from HERE */
+        
         $photo = photoproduct::create([
             'id_product' => $request->id_product,
             'path' => $imageName
@@ -126,31 +125,5 @@ class ProductController extends Controller
         $photoURL = url('/' . $imageName);
 
         return response(['fileName'=>$imageName, 'url'=>$photoURL]);
-
-        // $fileName = "product_image.jpg";
-        // $path = $request->file('image')->move(public_path('/'), $fileName);
-        // $photoURL = url('/' . $fileName);
-        // return response(['request'=>$request->file_name])->json(['url'=>$photoURL], 200);
-        
-        // if ($request->hasFile('photo')) {
-        //     $destinationPath = public_path('/');
-        //     $files = $request->file('photo'); // will get all files
-            
-        //     foreach ($files as $file) {//this statement will loop through all files.
-        //         $file_name = $file->getClientOriginalName(); //Get file original name
-        //         $file->move($destinationPath , $file_name); // move files to destination folder
-        //     }
-            
-        //     $photoURL = url('/' . $request->file_name);
-
-        //     $photo = photoproduct::create([
-        //         'id_product' => $request->id_product,
-        //         'path' => $photoURL
-        //     ]);
-    
-        //     return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
-        // }
-        //  return response(['message'=> 'no file', 'request'=>$request]);
-
     }
 }
