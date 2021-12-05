@@ -21,13 +21,13 @@ class ProductController extends Controller
             $photo = photoproduct::where('id_product', $value->id)->get();
             $list_picture = array();
 
-            foreach ($photo as $value) {
-                if (file_exists(public_path('photoproduct/' . $value->path))) {
-                    $product_picture = $value->path;
+            foreach ($photo as $val) {
+                if (file_exists(public_path('photoproduct/' . $val->path))) {
+                    $product_picture = $val->path;
                     $photoURL = url('/photoproduct' . '/' . $product_picture);
-                    array_push($list_picture, ['id_picture' => $value->id, 'url' => $photoURL]);
+                    array_push($list_picture, ['id_picture' => $val->id, 'url' => $photoURL]);
                 } else {
-                    $photo = photoproduct::find($value->id);
+                    $photo = photoproduct::find($val->id);
                     $photo->delete();
                 }
             }
