@@ -101,8 +101,19 @@ class ProductController extends Controller
 
     public function download_productPicture(Request $request)
     {
-        $file_name = photoproduct::find($request->id_product);
-        return response()->download(public_path('photoproduct'.$file_name->path), "Product Image");
+        $file_name = photoproduct::where('id_product', $request->id_product)->all();
+        $list_picture = array();
+        foreach ($file_name as $value) {
+            $product_picture = $value->path;
+            $photoURL = url('/photoproduct' . '/' . $product_picture);
+            array_push($list_picture, $photoURL);
+        }
+
+        return response([
+            'message' => 'Success get all picture for this product',
+            'list_picture' => $list_picture
+        ]);
+        // return response()->download(public_path('photoproduct/'.$file_name->path), "Product Image");
     }
 
     public function upload_productPicture(Request $request)
@@ -110,20 +121,20 @@ class ProductController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-    
-        $imageName = time().'.'.$request->image->extension();  
-     
+
+        $imageName = time() . '.' . $request->image->extension();
+
         $request->image->move(public_path('photoproduct'), $imageName);
-        
+
         $photo = photoproduct::create([
             'id_product' => $request->id_product,
             'path' => $imageName
         ]);
 
         $photo->save();
-        
-        $photoURL = url('/photoproduct'.'/' . $imageName);
 
-        return response(['fileName'=>$imageName, 'url'=>$photoURL]);
+        $photoURL = url('/photoproduct' . '/' . $imageName);
+
+        return response(['fileName' => $imageName, 'url' => $photoURL]);
     }
 }
