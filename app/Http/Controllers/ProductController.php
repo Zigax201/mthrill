@@ -125,7 +125,7 @@ class ProductController extends Controller
         
         $photoURL = url('/' . $imageName);
 
-        return response(['fileName'=>$imageName])->json(['url'=>$photoURL], 200);
+        return response(['fileName'=>$imageName, 'url'=>$photoURL]);
 
         // $fileName = "product_image.jpg";
         // $path = $request->file('image')->move(public_path('/'), $fileName);
