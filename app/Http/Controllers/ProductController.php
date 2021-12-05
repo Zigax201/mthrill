@@ -17,7 +17,7 @@ class ProductController extends Controller
         $list_product = array();
 
         foreach ($all_product as $value) {
-            
+
             $photo = photoproduct::where('id_product', $value->id);
             $list_picture = array();
 
@@ -25,14 +25,14 @@ class ProductController extends Controller
                 if (file_exists(public_path('photoproduct/' . $value->path))) {
                     $product_picture = $value->path;
                     $photoURL = url('/photoproduct' . '/' . $product_picture);
-                    array_push($list_picture, $photoURL);
+                    array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
                 } else {
                     $photo = photoproduct::find($value->id);
                     $photo->delete();
                 }
             }
 
-            array_push($list_product, [$value, $list_picture]);
+            array_push($list_product, ['detail_product'=>$value, 'list_pisture' => $list_picture]);
         }
 
         return response([
@@ -78,7 +78,7 @@ class ProductController extends Controller
             if (file_exists(public_path('photoproduct/' . $value->path))) {
                 $product_picture = $value->path;
                 $photoURL = url('/photoproduct' . '/' . $product_picture);
-                array_push($list_picture, $photoURL);
+                array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
             } else {
                 $photo = photoproduct::find($value->id);
                 $photo->delete();
@@ -159,7 +159,7 @@ class ProductController extends Controller
             if (file_exists(public_path('photoproduct/' . $value->path))) {
                 $product_picture = $value->path;
                 $photoURL = url('/photoproduct' . '/' . $product_picture);
-                array_push($list_picture, $photoURL);
+                array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
             } else {
                 $photo = photoproduct::find($value->id);
                 $photo->delete();
