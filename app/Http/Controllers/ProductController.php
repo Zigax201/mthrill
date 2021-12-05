@@ -194,8 +194,11 @@ class ProductController extends Controller
                     '.'
                         . $request->image->getClientOriginalExtension()
                 )
-                    . ($picture + 1) . $request->image->getClientOriginalExtension();
+                    . ' ' . ($picture + 1) . $request->image->getClientOriginalExtension();
+                    
+                $imageName = preg_replace('/\s+/', '_', $imageName);
             }
+
 
             $request->image->move(public_path('photoproduct'), $imageName);
 
