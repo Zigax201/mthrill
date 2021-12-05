@@ -183,18 +183,20 @@ class ProductController extends Controller
             ]);
 
             $imageName = $request->image->getClientOriginalName();
-
-            $imageName = preg_replace('/\s+/', '_', $imageName);
-
+            
             $picture = photoproduct::all();
-
+            
             $i = 0;
-
+            
+            
             foreach ($picture as $value) {
+                $value->path = preg_replace('_', ' ', $value->path);
                 if (strpos($value->path, $imageName)) {
                     $i++;
                 }
             }
+
+            $imageName = preg_replace('/\s+/', '_', $imageName);
 
             if ($i > 0) {
                 $imageName = basename(
