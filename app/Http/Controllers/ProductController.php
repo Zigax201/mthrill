@@ -113,7 +113,8 @@ class ProductController extends Controller
         //     'message' => 'Success get all picture for this product',
         //     'list_picture' => $list_picture
         // ]);
-        return response()->public_path('productphoto/anggrek_pink.jpg');
+        $path = public_path('productphoto/anggrek_pink.jpg');
+        return response(['path'=>$path]);
     }
 
     public function upload_productPicture(Request $request)
