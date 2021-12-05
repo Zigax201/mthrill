@@ -50,9 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('prod/downloadPhoto', [ProductController::class, 'download_productPicture']);
     Route::delete('prod/deletePhoto', [ProductController::class, 'delete_productPicture']);
 
-    Route::post('usr/uploadPhoto', [ProductController::class, 'upload_userPicture']);
-    Route::get('usr/downloadPhoto', [ProductController::class, 'download_userPicture']);
-    Route::delete('usr/deletePhoto', [ProductController::class, 'delete_userPicture']);
+    Route::post('usr/uploadPhoto', [AuthController::class, 'upload_userPicture']);
+    Route::get('usr/downloadPhoto', [AuthController::class, 'download_userPicture']);
+    Route::delete('usr/deletePhoto', [AuthController::class, 'delete_userPicture']);
 
     
     Route::post('cart/store', [CartController::class, 'store_cart']);
