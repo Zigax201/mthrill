@@ -107,25 +107,25 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        // $request->validate([
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
     
         $imageName = time().'.'.$request->image->extension();  
      
-        return response(['fileName'=>$imageName]);
-        // $request->image->move(public_path('photoproduct'), $imageName);
-        // // $pathToFile = Storage::disk('public')->put('uploads/', $file);
-        // /* Store $imageName name in DATABASE from HERE */
-        // $photo = photoproduct::create([
-        //     'id_product' => $request->id_product,
-        //     'path' => $imageName
-        // ]);
+        $request->image->move(public_path('photoproduct'), $imageName);
+        // $pathToFile = Storage::disk('public')->put('uploads/', $file);
+        /* Store $imageName name in DATABASE from HERE */
+        $photo = photoproduct::create([
+            'id_product' => $request->id_product,
+            'path' => $imageName
+        ]);
 
-        // $photo->save();
+        $photo->save();
         
-        // $photoURL = url('/' . $imageName);
+        $photoURL = url('/' . $imageName);
 
+        return response(['fileName'=>$imageName, 'url'=>$photoURL]);
 
         // $fileName = "product_image.jpg";
         // $path = $request->file('image')->move(public_path('/'), $fileName);
