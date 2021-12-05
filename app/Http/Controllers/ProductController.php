@@ -190,7 +190,7 @@ class ProductController extends Controller
             
             
             foreach ($picture as $value) {
-                $value->path = preg_replace('_', ' ', $value->path);
+                $value->path = str_replace('_', ' ', $value->path);
                 if (strpos($value->path, $imageName)) {
                     $i++;
                 }
