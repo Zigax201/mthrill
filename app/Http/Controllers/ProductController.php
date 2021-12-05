@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function download_productPicture(Request $request)
     {
         $file_name = photoproduct::find($request->id_product);
-        return response()->download(public_path('photoproduct/'.$file_name->path), "Product Image");
+        return response()->download(public_path('photoproduct'.$file_name->path), "Product Image");
     }
 
     public function upload_productPicture(Request $request)
@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         $photo->save();
         
-        $photoURL = url('/' . $imageName);
+        $photoURL = url('//photoproduct/' . $imageName);
 
         return response(['fileName'=>$imageName, 'url'=>$photoURL]);
     }
