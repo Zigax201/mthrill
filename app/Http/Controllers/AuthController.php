@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -82,36 +83,80 @@ class AuthController extends Controller
         }
     }
 
-    public function download_profilePicture(Request $request)
+    public function download_userPicture(Request $request)
     {
-        $file_name = photouser::find($request->id_user);
-        return response()->download(public_path($file_name->path), "User Image");
+        $file_name = photouser::where('id_user', $request->id_user)->get();
+
+        $list_picture = array();
+
+        foreach ($file_name as $value) {
+            if (file_exists(public_path('photouser/' . $value->path))) {
+                $user_picture = $value->path;
+                $photoURL = url('/photouser' . '/' . $user_picture);
+                array_push($list_picture, ['id_picture' => $value->id, 'url' => $photoURL]);
+            } else {
+                $photo = photouser::find($value->id);
+                $photo->delete();
+            }
+        }
+
+        return response([
+            'message' => 'Success get all picture for this user',
+            'list_picture' => $list_picture
+        ]);
     }
 
-    public function upload_profilePicture(Request $request)
+    public function upload_userPicture(Request $request)
     {
-        // $path = $request->file('photo')->move(public_path('/photouser' . '/'), $request->file_name);
-        // $photoURL = url('/photouser' . '/' . $request->file_name);
-
-        // $photo = photouser::create([
-        //     'id_user' => $request->id_user,
-        //     'path' => $request->file_name
-        // ]);
-
-        // return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
-
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-    
-        $imageName = time().'.'.$request->image->extension();  
-     
-        $request->image->move(public_path('images'), $imageName);
-  
-        /* Store $imageName name in DATABASE from HERE */
-    
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('image',$imageName);
+
+        $imageName = $request->image->getClientOriginalName();
+
+        $imageName = preg_replace('/\s+/', '_', $imageName);
+
+
+        $i = true;
+        $j = 0;
+        while ($i == true) {
+            $picture = photouser::where('path', $imageName)->count();
+            if ($picture > 0) {
+                $j++;
+                $imageName = basename(
+                    $request->image->getClientOriginalName(),
+                    '.' . $request->image->getClientOriginalExtension()
+                )
+                    . ' ' . ($picture + $j) . '.' . $request->image->getClientOriginalExtension();
+
+                $imageName = preg_replace('/\s+/', '_', $imageName);
+            } else {
+                $i = false;
+            }
+        }
+
+        $request->image->move(public_path('photouser'), $imageName);
+
+        $photo = photouser::create([
+            'id_user' => $request->id_user,
+            'path' => $imageName
+        ]);
+
+        $photo->save();
+
+        $photoURL = url('/photouser' . '/' . $imageName);
+
+        return response(['fileName' => $imageName, 'url' => $photoURL]);
+    }
+
+    public function delete_userPicture(Request $request)
+    {
+        $photo = photouser::find($request->id_picture)->first();
+
+        File::delete(public_path('photouser/' . $photo->path));
+
+        $photo->delete();
+
+        return response(['message' => 'Success deleting picture']);
     }
 }
