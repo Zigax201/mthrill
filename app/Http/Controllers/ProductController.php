@@ -124,6 +124,8 @@ class ProductController extends Controller
 
         $imageName = $request->image->getClientOriginalName();
 
+        $imageName = preg_replace('/\s+/', '_', $imageName);
+
         $request->image->move(public_path('photoproduct'), $imageName);
 
         // $photo = photoproduct::create([
