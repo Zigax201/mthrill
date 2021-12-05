@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('transaction/status', [TransactionController::class, 'status']);
     Route::get('transactions', [TransactionController::class, 'get_transaction']);
     Route::get('transaction/id', [TransactionController::class, 'get_transaction_by_id']);
+    Route::get('transactions/all', [TransactionController::class, 'get_transaction_all']);
 });
 
 Route::get('prod/downloadPhoto', [ProductController::class, 'download_productPicture']);

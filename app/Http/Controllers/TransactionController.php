@@ -132,4 +132,13 @@ class TransactionController extends Controller
             'Transactions' =>  $transaction
         ]);
     }
+
+    public function get_transaction_all()
+    {
+        if (Auth::user()->role == 1) {
+            return response(['message' => 'Success get all Transactions', 'transaction' => transaction::all()]);
+        } else{
+            return response(['message' => 'Only Admin can access this']);
+        }
+    }
 }
