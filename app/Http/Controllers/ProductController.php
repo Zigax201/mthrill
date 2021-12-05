@@ -107,9 +107,9 @@ class ProductController extends Controller
 
     public function upload_productPicture(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $request->validate([
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
     
         $imageName = time().'.'.$request->image->extension();  
      
