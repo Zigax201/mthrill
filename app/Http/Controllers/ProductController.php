@@ -186,16 +186,24 @@ class ProductController extends Controller
 
             $imageName = preg_replace('/\s+/', '_', $imageName);
 
-            $picture = photoproduct::where('path', $imageName)->count();
+            $picture = photoproduct::all();
 
-            if ($picture > 0) {
+            $i = 0;
+
+            foreach($picture as $value){
+                if(strpos($value->path, $imageName)){
+                    $i++;
+                }
+            }
+
+            if ($i > 0) {
                 $imageName = basename(
                     $request->image->getClientOriginalName(),
                     '.'
                         . $request->image->getClientOriginalExtension()
                 )
-                    . ' ' . ($picture + 1) . $request->image->getClientOriginalExtension();
-                    
+                    . ' ' . ($picture + 1) . '.' . $request->image->getClientOriginalExtension();
+
                 $imageName = preg_replace('/\s+/', '_', $imageName);
             }
 
@@ -232,5 +240,16 @@ class ProductController extends Controller
 
             return response(['message' => 'Only admins can do this']);
         }
+    }
+
+    function string_between_two_string($str, $starting_word, $ending_word)
+    {
+        $subtring_start = strpos($str, $starting_word);
+
+        $subtring_start += strlen($starting_word);
+
+        $size = strpos($str, $ending_word, $subtring_start) - $subtring_start;
+
+        return substr($str, $subtring_start, $size);
     }
 }
