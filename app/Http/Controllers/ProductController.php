@@ -101,7 +101,7 @@ class ProductController extends Controller
 
     public function download_productPicture(Request $request)
     {
-        $file_name = photoproduct::where('id_product', $request->id_product);
+        $file_name = photoproduct::where('id_product', $request->id_product)->get();
         $list_picture = array();
         foreach ($file_name as $value) {
             $product_picture = $value->path;
