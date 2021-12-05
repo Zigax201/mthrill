@@ -122,16 +122,16 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $imageName = $request->image->getClientOriginalName() . '.' . $request->image->extension();
+        $imageName = $request->image->getClientOriginalName();
 
         $request->image->move(public_path('photoproduct'), $imageName);
 
-        $photo = photoproduct::create([
-            'id_product' => $request->id_product,
-            'path' => $imageName
-        ]);
+        // $photo = photoproduct::create([
+        //     'id_product' => $request->id_product,
+        //     'path' => $imageName
+        // ]);
 
-        $photo->save();
+        // $photo->save();
 
         $photoURL = url('/photoproduct' . '/' . $imageName);
 
