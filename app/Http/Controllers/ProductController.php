@@ -190,8 +190,8 @@ class ProductController extends Controller
 
             $i = 0;
 
-            foreach($picture as $value){
-                if(strpos($value->path, $imageName)){
+            foreach ($picture as $value) {
+                if (strpos($value->path, $imageName)) {
                     $i++;
                 }
             }
@@ -199,8 +199,7 @@ class ProductController extends Controller
             if ($i > 0) {
                 $imageName = basename(
                     $request->image->getClientOriginalName(),
-                    '.'
-                        . $request->image->getClientOriginalExtension()
+                    '.' . $request->image->getClientOriginalExtension()
                 )
                     . ' ' . ($picture + 1) . '.' . $request->image->getClientOriginalExtension();
 
