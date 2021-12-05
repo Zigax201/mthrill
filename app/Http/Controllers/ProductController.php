@@ -188,15 +188,16 @@ class ProductController extends Controller
 
 
             $i = true;
-
+            $j = 0;
             while ($i == true) {
                 $picture = photoproduct::where('path', $imageName)->count();
                 if ($picture > 0){
+                    $j++;
                     $imageName = basename(
                         $request->image->getClientOriginalName(),
                         '.' . $request->image->getClientOriginalExtension()
                     )
-                        . ' ' . ($picture + 1) . '.' . $request->image->getClientOriginalExtension();
+                        . ' ' . ($picture + $j) . '.' . $request->image->getClientOriginalExtension();
     
                     $imageName = preg_replace('/\s+/', '_', $imageName);
                 } else {
