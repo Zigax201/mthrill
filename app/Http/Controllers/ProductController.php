@@ -188,9 +188,12 @@ class ProductController extends Controller
             
             $i = 0;
             
-            
             foreach ($picture as $value) {
                 $value->path = str_replace('_', ' ', $value->path);
+                $imageName = basename(
+                    $request->image->getClientOriginalName(),
+                    '.' . $request->image->getClientOriginalExtension()
+                );
                 if (strpos($value->path, $imageName)) {
                     $i++;
                 }
@@ -238,7 +241,6 @@ class ProductController extends Controller
 
             return response(['message' => 'Success deleting picture']);
         } else {
-
             return response(['message' => 'Only admins can do this']);
         }
     }
