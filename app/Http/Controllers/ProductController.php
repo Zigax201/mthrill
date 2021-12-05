@@ -18,21 +18,24 @@ class ProductController extends Controller
 
         foreach ($all_product as $value) {
 
-            $photo = photoproduct::where('id_product', $value->id);
+            $photo = photoproduct::where('id_product', $value->id)->get();
             $list_picture = array();
 
             foreach ($photo as $value) {
                 if (file_exists(public_path('photoproduct/' . $value->path))) {
                     $product_picture = $value->path;
                     $photoURL = url('/photoproduct' . '/' . $product_picture);
-                    array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
+                    array_push($list_picture, ['id_picture' => $value->id, 'url' => $photoURL]);
                 } else {
                     $photo = photoproduct::find($value->id);
                     $photo->delete();
                 }
             }
 
-            array_push($list_product, ['detail_product' => $value, 'list_pisture' => $list_picture]);
+            array_push($list_product, [
+                'detail_product' => $value, 
+                'list_picture' => $list_picture
+            ]);
         }
 
         return response([
@@ -78,7 +81,7 @@ class ProductController extends Controller
             if (file_exists(public_path('photoproduct/' . $value->path))) {
                 $product_picture = $value->path;
                 $photoURL = url('/photoproduct' . '/' . $product_picture);
-                array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
+                array_push($list_picture, ['id_picture' => $value->id, 'url' => $photoURL]);
             } else {
                 $photo = photoproduct::find($value->id);
                 $photo->delete();
