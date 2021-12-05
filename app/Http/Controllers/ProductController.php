@@ -113,7 +113,7 @@ class ProductController extends Controller
     
         $imageName = time().'.'.$request->image->extension();  
      
-        $request->image->move(public_path('images'), $imageName);
+        $request->image->move(public_path('photoproduct'), $imageName);
   
         /* Store $imageName name in DATABASE from HERE */
         $photo = photoproduct::create([
