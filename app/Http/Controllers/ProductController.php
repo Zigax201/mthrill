@@ -32,7 +32,7 @@ class ProductController extends Controller
                 }
             }
 
-            array_push($list_product, ['detail_product'=>$value, 'list_pisture' => $list_picture]);
+            array_push($list_product, ['detail_product' => $value, 'list_pisture' => $list_picture]);
         }
 
         return response([
@@ -186,6 +186,12 @@ class ProductController extends Controller
 
             $imageName = preg_replace('/\s+/', '_', $imageName);
 
+            $picture = photoproduct::where('path', $imageName)->count();
+
+            if ($picture > 0) {
+                $imageName = $imageName.($picture+1);
+            }
+
             $request->image->move(public_path('photoproduct'), $imageName);
 
             $photo = photoproduct::create([
@@ -214,11 +220,9 @@ class ProductController extends Controller
             $photo->delete();
 
             return response(['message' => 'Success deleting picture']);
-
         } else {
 
             return response(['message' => 'Only admins can do this']);
-            
         }
     }
 }
