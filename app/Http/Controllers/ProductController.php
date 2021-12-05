@@ -101,19 +101,26 @@ class ProductController extends Controller
 
     public function download_productPicture(Request $request)
     {
-        // $file_name = photoproduct::where('id_product', $request->id_product)->get();
-        // $list_picture = array();
-        // foreach ($file_name as $value) {
-        //     $product_picture = $value->path;
-        //     $photoURL = url('/photoproduct' . '/' . $product_picture);
-        //     array_push($list_picture, $photoURL);
-        // }
+        $file_name = photoproduct::where('id_product', $request->id_product)->get();
 
-        // return response([
-        //     'message' => 'Success get all picture for this product',
-        //     'list_picture' => $list_picture
-        // ]);
-        return response()->download(public_path('photoproduct/anggrek_pink.jpg'));
+        $list_picture = array();
+        
+        foreach ($file_name as $value) {
+            if(file_exists(public_path('photoproduct/'.$value->path))){
+                $product_picture = $value->path;
+                $photoURL = url('/photoproduct' . '/' . $product_picture);
+                array_push($list_picture, $photoURL);
+            } else {
+                $photo = photoproduct::find($value->id);
+                $photo->delete();
+            }
+        }
+
+        return response([
+            'message' => 'Success get all picture for this product',
+            'list_picture' => $list_picture
+        ]);
+        // return response()->download(public_path('photoproduct/anggrek_pink.jpg'));
     }
 
     public function upload_productPicture(Request $request)
@@ -128,12 +135,12 @@ class ProductController extends Controller
 
         $request->image->move(public_path('photoproduct'), $imageName);
 
-        // $photo = photoproduct::create([
-        //     'id_product' => $request->id_product,
-        //     'path' => $imageName
-        // ]);
+        $photo = photoproduct::create([
+            'id_product' => $request->id_product,
+            'path' => $imageName
+        ]);
 
-        // $photo->save();
+        $photo->save();
 
         $photoURL = url('/photoproduct' . '/' . $imageName);
 
