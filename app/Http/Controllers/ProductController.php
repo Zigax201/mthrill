@@ -159,7 +159,7 @@ class ProductController extends Controller
             if (file_exists(public_path('photoproduct/' . $value->path))) {
                 $product_picture = $value->path;
                 $photoURL = url('/photoproduct' . '/' . $product_picture);
-                array_push($list_picture, ['id_picture' => $value->sid, 'url' => $photoURL]);
+                array_push($list_picture, ['id_picture' => $value->id, 'url' => $photoURL]);
             } else {
                 $photo = photoproduct::find($value->id);
                 $photo->delete();
