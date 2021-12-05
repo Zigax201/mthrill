@@ -113,19 +113,19 @@ class ProductController extends Controller
     
         $imageName = time().'.'.$request->image->extension();  
      
-        $request->image->move(public_path('photoproduct'), $imageName);
-        // $pathToFile = Storage::disk('public')->put('uploads/', $file);
-        /* Store $imageName name in DATABASE from HERE */
-        $photo = photoproduct::create([
-            'id_product' => $request->id_product,
-            'path' => $imageName
-        ]);
+        return response(['fileName'=>$imageName]);
+        // $request->image->move(public_path('photoproduct'), $imageName);
+        // // $pathToFile = Storage::disk('public')->put('uploads/', $file);
+        // /* Store $imageName name in DATABASE from HERE */
+        // $photo = photoproduct::create([
+        //     'id_product' => $request->id_product,
+        //     'path' => $imageName
+        // ]);
 
-        $photo->save();
+        // $photo->save();
         
-        $photoURL = url('/' . $imageName);
+        // $photoURL = url('/' . $imageName);
 
-        return response(['fileName'=>$imageName, 'url'=>$photoURL]);
 
         // $fileName = "product_image.jpg";
         // $path = $request->file('image')->move(public_path('/'), $fileName);
