@@ -90,14 +90,28 @@ class AuthController extends Controller
 
     public function upload_profilePicture(Request $request)
     {
-        $path = $request->file('photo')->move(public_path('/photouser' . '/'), $request->file_name);
-        $photoURL = url('/photouser' . '/' . $request->file_name);
+        // $path = $request->file('photo')->move(public_path('/photouser' . '/'), $request->file_name);
+        // $photoURL = url('/photouser' . '/' . $request->file_name);
 
-        $photo = photouser::create([
-            'id_user' => $request->id_user,
-            'path' => $request->file_name
+        // $photo = photouser::create([
+        //     'id_user' => $request->id_user,
+        //     'path' => $request->file_name
+        // ]);
+
+        // return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        return  response(['message' => 'Success upload image', 'photo' => $photo])->json(['url' => $photoURL], 200);
+    
+        $imageName = time().'.'.$request->image->extension();  
+     
+        $request->image->move(public_path('images'), $imageName);
+  
+        /* Store $imageName name in DATABASE from HERE */
+    
+        return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image',$imageName);
     }
 }
