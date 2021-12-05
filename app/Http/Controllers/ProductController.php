@@ -207,7 +207,9 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 1) {
-            photoproduct::find($request->id_picture)->delete();
+            $photo = photoproduct::find($request->id_picture)->first();
+            $photo->delete();
+            return response(['message' => 'Success deleting picture']);
         } else {
             return response(['message' => 'Only admins can do this']);
         }
