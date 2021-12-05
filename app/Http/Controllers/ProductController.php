@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         $photo->save();
         
-        $photoURL = url('//photoproduct/' . $imageName);
+        $photoURL = url('/photoproduct'.'/' . $imageName);
 
         return response(['fileName'=>$imageName, 'url'=>$photoURL]);
     }
