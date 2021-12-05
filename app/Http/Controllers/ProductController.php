@@ -207,7 +207,7 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 1) {
-            photoproduct::where('id_product', $request->id_product)->delete();
+            photoproduct::find($request->id_picture)->delete();
         } else {
             return response(['message' => 'Only admins can do this']);
         }
