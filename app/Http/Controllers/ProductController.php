@@ -90,6 +90,8 @@ class ProductController extends Controller
             }
         }
 
+        $product->price = (int)filter_var($product->price, FILTER_SANITIZE_NUMBER_INT);
+
         $product->list_picture = $list_picture;
 
         return response([

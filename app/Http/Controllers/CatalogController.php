@@ -58,6 +58,8 @@ class CatalogController extends Controller
                 }
             }
 
+            $value->price = (int)filter_var($value->price, FILTER_SANITIZE_NUMBER_INT);
+
             // $value = (object) array_merge( (array)$value, array( 'list_picture' => $list_picture ) );
             $value->list_picture = $list_picture;
 
