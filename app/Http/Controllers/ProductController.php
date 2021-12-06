@@ -90,12 +90,11 @@ class ProductController extends Controller
             }
         }
 
+        $product->list_picture = $list_picture;
+
         return response([
             'message' => 'Success Get Product',
-            'product' => [
-                'detail_product' => $product,
-                'list_picture' => $list_picture
-            ]
+            'product' => $product
         ]);
     }
 
