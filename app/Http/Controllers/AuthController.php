@@ -49,8 +49,11 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
+        $list_picture = array();
         $photo = photouser::where('id_user', $user->id)->get();
-        $user->picture = $photo;
+        $photoURL = url('/photouser' . '/' . $photo);
+        array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
+        $user->picture = $list_picture;
         if ($user->role == 1) {
             return response([
                 'message' => 'Welcome Admin',
@@ -82,8 +85,11 @@ class AuthController extends Controller
     {
         if (Auth::user()->role == 1) {
             $user = User::find($request->id_user);
+            $list_picture = array();
             $photo = photouser::where('id_user', $user->id)->get();
-        $user->picture = $photo;
+            $photoURL = url('/photouser' . '/' . $photo);
+            array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
+            $user->picture = $list_picture;
             return response(['message' => 'Success get Users', 'users' => $user]);
         }
     }
