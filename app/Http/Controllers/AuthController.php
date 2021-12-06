@@ -49,11 +49,24 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
-        $list_picture = array();
+
         $photo = photouser::where('id_user', Auth::id())->get();
-        $photoURL = url('/photouser' . '/' . $photo);
-        array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
+
+        $list_picture = array();
+
+        foreach ($photo as $val) {
+            if (file_exists(public_path('photouser/' . $val->path))) {
+                $user_picture = $val->path;
+                $photoURL = url('/photouser' . '/' . $user_picture);
+                array_push($list_picture, ['id_picture' => $val->id, 'url' => $photoURL]);
+            } else {
+                $photo = photouser::find($val->id);
+                $photo->delete();
+            }
+        }
+
         $user->picture = $list_picture;
+
         if ($user->role == 1) {
             return response([
                 'message' => 'Welcome Admin',
@@ -84,12 +97,25 @@ class AuthController extends Controller
     public function get_user_by_id(Request $request)
     {
         if (Auth::user()->role == 1) {
+            
             $user = User::find($request->id_user);
-            $list_picture = array();
             $photo = photouser::where('id_user', $request->id_user)->get();
-            $photoURL = url('/photouser' . '/' . $photo);
-            array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
+
+            $list_picture = array();
+
+            foreach ($photo as $val) {
+                if (file_exists(public_path('photouser/' . $val->path))) {
+                    $user_picture = $val->path;
+                    $photoURL = url('/photouser' . '/' . $user_picture);
+                    array_push($list_picture, ['id_picture' => $val->id, 'url' => $photoURL]);
+                } else {
+                    $photo = photouser::find($val->id);
+                    $photo->delete();
+                }
+            }
+
             $user->picture = $list_picture;
+
             return response(['message' => 'Success get Users', 'users' => $user]);
         }
     }
