@@ -66,7 +66,7 @@ class CartController extends Controller
                 }
             }
 
-            $product->price = (int)filter_var($product->price, FILTER_SANITIZE_NUMBER_INT);
+            $product->price = (int)$product->price;
 
             // $value = (object) array_merge( (array)$value, array( 'list_picture' => $list_picture ) );
             $product->list_picture = $list_picture;
