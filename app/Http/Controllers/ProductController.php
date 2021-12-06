@@ -32,6 +32,8 @@ class ProductController extends Controller
                 }
             }
 
+            $value->price = filter_var($value->price, FILTER_SANITIZE_NUMBER_INT);
+
             // $value = (object) array_merge( (array)$value, array( 'list_picture' => $list_picture ) );
             $value->list_picture = $list_picture;
 
@@ -193,14 +195,14 @@ class ProductController extends Controller
             $j = 0;
             while ($i == true) {
                 $picture = photoproduct::where('path', $imageName)->count();
-                if ($picture > 0){
+                if ($picture > 0) {
                     $j++;
                     $imageName = basename(
                         $request->image->getClientOriginalName(),
                         '.' . $request->image->getClientOriginalExtension()
                     )
                         . ' ' . ($picture + $j) . '.' . $request->image->getClientOriginalExtension();
-    
+
                     $imageName = preg_replace('/\s+/', '_', $imageName);
                 } else {
                     $i = false;
