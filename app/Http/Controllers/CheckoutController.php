@@ -36,7 +36,7 @@ class CheckoutController extends Controller
             $response = json_decode($response, true);
             //ini untuk mengambil data provinsi yang ada di dalam rajaongkir result
             $data_pengirim = $response['rajaongkir']['results'];
-            return $data_pengirim;
+            return response(['message' => 'Success get data provinsi', 'data_provinsi' => $data_pengirim]);
         }
     }
 
@@ -67,7 +67,7 @@ class CheckoutController extends Controller
         } else {
             $response = json_decode($response, true);
             $data_kota = $response['rajaongkir']['results'];
-            return $data_kota;
+            return response(['message' => 'Success get data kota di provinsi '.$data_kota[0]->province, 'data_kota' => $data_kota]);
         }
     }
 
@@ -100,7 +100,7 @@ class CheckoutController extends Controller
         } else {
             $response = json_decode($response, true);
             $data_ongkir = $response['rajaongkir']['results'];
-            return $data_ongkir;
+            return response(['message' => 'Success get data ongkir', 'data_ongkir' => $data_ongkir]);
         }
     }
 
