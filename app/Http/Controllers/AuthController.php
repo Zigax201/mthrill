@@ -81,7 +81,10 @@ class AuthController extends Controller
     public function get_user_by_id(Request $request)
     {
         if (Auth::user()->role == 1) {
-            return response(['message' => 'Success get Users', 'users' => User::find($request->id_user)]);
+            $user = User::find($request->id_user);
+            $photo = photouser::where('id_user', $user->id)->get();
+        $user->picture = $photo;
+            return response(['message' => 'Success get Users', 'users' => $user]);
         }
     }
 
