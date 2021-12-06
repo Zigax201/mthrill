@@ -100,7 +100,7 @@ class CheckoutController extends Controller
         } else {
             $response = json_decode($response, true);
             $data_ongkir = $response['rajaongkir']['results'];
-            return response(['message' => 'Success get data ongkir', 'data_ongkir' => $data_ongkir]);
+            return $data_ongkir;
         }
     }
 
