@@ -33,6 +33,10 @@ class ProductController extends Controller
             }
 
             $value = (object) array_merge( (array)$value, array( 'list_picture' => $list_picture ) );
+
+            array_push($list_product, [
+                'product' => $value
+            ]);
         }
 
         return response([
