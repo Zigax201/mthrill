@@ -50,7 +50,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $list_picture = array();
-        $photo = photouser::where('id_user', $user->id)->get();
+        $photo = photouser::where('id_user', Auth::id())->get();
         $photoURL = url('/photouser' . '/' . $photo);
         array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
         $user->picture = $list_picture;
@@ -86,7 +86,7 @@ class AuthController extends Controller
         if (Auth::user()->role == 1) {
             $user = User::find($request->id_user);
             $list_picture = array();
-            $photo = photouser::where('id_user', $user->id)->get();
+            $photo = photouser::where('id_user', $request->id_user)->get();
             $photoURL = url('/photouser' . '/' . $photo);
             array_push($list_picture, ['id_picture' => $photo->id, 'url' => $photoURL]);
             $user->picture = $list_picture;
