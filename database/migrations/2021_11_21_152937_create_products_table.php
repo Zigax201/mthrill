@@ -17,11 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->longText('desc')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->decimal('base_price', 10, 2);
+            $table->decimal('publish_price', 10, 2);
             $table->decimal('tinggi', 10, 2)->nullable();
             $table->decimal('berat', 10, 2)->nullable();
             $table->string('warna')->nullable();
             $table->string('jenis')->nullable();
+            $table->decimal('stok', 9, 0)->nullable();
+            $table->decimal('diskon', 3, 0)->nullable();
             $table->integer('catalog');
             $table->timestamps();
         });

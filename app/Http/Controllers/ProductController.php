@@ -32,7 +32,8 @@ class ProductController extends Controller
                 }
             }
 
-            $value->price = (int)$value->price;
+            $value->base_price = (int)$value->base_price;
+            $value->publish_price = (int)$value->publish_price;
 
             // $value = (object) array_merge( (array)$value, array( 'list_picture' => $list_picture ) );
             $value->list_picture = $list_picture;
@@ -50,14 +51,22 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 1) {
+
+            if($request->diskon > 0){
+                $request->publish_price = (int)$request->publish_price * ((int)$request->diskon / 100);
+            }
+
             $product = Product::create([
                 'name' => $request->name,
                 'desc' => $request->desc,
-                'price' => $request->price,
+                'base_price' => $request->base_price,
+                'publish_price' => $request->publish_price,
                 'tinggi' => $request->tinggi,
                 'berat' => $request->berat,
                 'warna' => $request->warna,
                 'jenis' => $request->jenis,
+                'stok' => $request->stok,
+                'diskon' => $request->diskon,
                 'catalog' => $request->catalog
             ]);
 
@@ -90,7 +99,8 @@ class ProductController extends Controller
             }
         }
 
-        $product->price = (int)$product->price;
+        $product->base_price = (int)$product->base_price;
+        $product->publish_price = (int)$product->publish_price;
 
         $product->list_picture = $list_picture;
 
@@ -108,15 +118,22 @@ class ProductController extends Controller
 
             $product = Product::where('id', $request->id)->get();
 
+            if($request->diskon > 0){
+                $request->publish_price = (int)$request->publish_price * ((int)$request->diskon / 100);
+            }
+
             $product->toQuery()->update([
-                'name' => $request->input('name'),
-                'desc' => $request->input('desc'),
-                'price' => $request->input('price'),
-                'tinggi' => $request->input('tinggi'),
-                'berat' => $request->input('berat'),
-                'warna' => $request->input('warna'),
-                'jenis' => $request->input('jenis'),
-                'catalog' => $request->input('catalog')
+                'name' => $request->name,
+                'desc' => $request->desc,
+                'base_price' => $request->base_price,
+                'publish_price' => $request->publish_price,
+                'tinggi' => $request->tinggi,
+                'berat' => $request->berat,
+                'warna' => $request->warna,
+                'jenis' => $request->jenis,
+                'stok' => $request->stok,
+                'diskon' => $request->diskon,
+                'catalog' => $request->catalog
             ]);
 
             if ($product) {
